@@ -18,7 +18,7 @@ public class AsociadoController : ControllerBase
     }
 
     // [HttpGet(Name = "GetAsociado")]
-    // public Task<Asociado> Get([FromQuery] string id)
+    // public Task<Asociado> Get([FromQuery] string ID)
     // {
     //     Asociado a = new Asociado();                        
     // }
@@ -35,7 +35,13 @@ public class AsociadoController : ControllerBase
         asociado.FechaNacimiento = request.FechaNacimiento;
         asociado.Telefono = request.Telefono;
         asociado.EsDonante = request.EsDonante;
-        
+        asociado.EstaEnfermo = request.EstaEnfermo;
+        asociado.EstaMedicado = request.EstaMedicado;
+        asociado.Localidad = request.Localidad;
+        asociado.Domicilio = request.Domicilio;
+        asociado.GrupoSanguineo = request.GrupoSanguineo;
+        asociado.Factor = request.Factor;
+                
         return asociado;
     }
 }

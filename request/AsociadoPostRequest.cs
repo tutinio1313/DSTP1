@@ -34,5 +34,24 @@ namespace DSTP1_Request
 
         [Required(ErrorMessage = "Debes ingresar tu condición como donante.")]
         public bool EsDonante {get; set;}
+        [Required(ErrorMessage = "Debes ingresar tu condición de salud.")]
+        public bool EstaEnfermo {get; set;}
+        [Required(ErrorMessage = "Debes ingresar si consumes algun medicamento.")]
+        public bool EstaMedicado {get; set;}
+        [Required(ErrorMessage = "Debes ingresar tu localidad.")]
+        [DataType(DataType.Text)]
+        public string Localidad {get; set;}
+
+        [Required(ErrorMessage = "Debes ingresar tu domicilio.")]
+        [DataType(DataType.Text)]
+        public string Domicilio {get; set;}
+
+        [Required(ErrorMessage = "Debes ingresar tu grupo sanguineo.")]
+        [DataType(DataType.Custom)]
+        public string GrupoSanguineo {get; set;}
+
+        [Required(ErrorMessage = "Debes ingresar el factor de tu grupo sanguineo.")]
+        [DataType(DataType.Custom)]
+        public string Factor {get; set;}
     }
 }
