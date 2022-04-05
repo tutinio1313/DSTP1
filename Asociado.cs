@@ -11,5 +11,19 @@ namespace DSTP1
         public DateTime FechaNacimiento {get; set;}
         public string Telefono {get; set;}
         public bool EsDonante {get; set;}       
+        public bool EstaEnfermo {get; set;}
+        public bool EstaMedicado {get; set;}
+        public string Localidad {get; set;}
+        public string Domicilio {get; set;}
+        public string GrupoSanguineo {get; set;}
+        public string Factor {get; set;}
+
+        public void SetEsDonante()
+        {
+            if(!EstaEnfermo && !EstaMedicado)
+            {
+                EsDonante = true;
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using DSTP1;
 using DSTP1_Request;
+using Newtonsoft.Json;
 
 namespace dstp1.Controllers;
 
@@ -8,7 +10,8 @@ namespace dstp1.Controllers;
 [Route("[controller]")]
 public class AsociadoController : ControllerBase
 { 
-    public string clientPath = Directory.GetCurrentDirectory() + "/db/asociados.json";
+    public string asociadosJsonPath = Directory.GetCurrentDirectory() + "/db/asociados.json";
+    public List<Asociado> asociados = new List<Asociado>();
 
     private readonly ILogger<AsociadoController> _logger;
 
@@ -16,9 +19,21 @@ public class AsociadoController : ControllerBase
     {
         _logger = logger;
     }
+    
+    private void GuardarAsociado()
+    {
+        string temp = JsonConvert.SerializeObject(asociados);        
+        System.IO.File.WriteAllText(asociadosJsonPath, temp);
+    }
+
+    private void CargarAsociados()
+    {
+        string json = System.IO.File.ReadAllText(asociadosJsonPath);
+        asociados = JsonConvert.DeserializeObject<List<Asociado>>(json);
+    }
 
     // [HttpGet(Name = "GetAsociado")]
-    // public Task<Asociado> Get([FromQuery] string id)
+    // public Task<Asociado> Get([FromQuery] string ID)
     // {
     //     Asociado a = new Asociado();                        
     // }
@@ -34,8 +49,14 @@ public class AsociadoController : ControllerBase
         asociado.Email = request.Email;
         asociado.FechaNacimiento = request.FechaNacimiento;
         asociado.Telefono = request.Telefono;
-        asociado.EsDonante = request.EsDonante;
-        
+        asociado.EstaEnfermo = request.EstaEnfermo;
+        asociado.EstaMedicado = request.EstaMedicado;
+        asociado.SetEsDonante();
+        asociado.Localidad = request.Localidad;
+        asociado.Domicilio = request.Domicilio;
+        asociado.GrupoSanguineo = request.GrupoSanguineo;
+        asociado.Factor = request.Factor;
+                
         return asociado;
     }
 }
