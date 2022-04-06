@@ -1,6 +1,6 @@
 using System;
 
-namespace DSTP1
+namespace dstp1
 {
     public class Asociado
     {

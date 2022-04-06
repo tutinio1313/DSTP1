@@ -1,11 +1,71 @@
 {
   "Version": 1,
-  "Hash": "gbdUQIVpzrouweH7ID722pWYOhbIJNKmb/m8KewZa44=",
+  "Hash": "18ZoSK9LB9iCcXsXFfSN5Wq8sX/fkwfR/TnmyJgFHCs=",
   "Source": "dstp1",
   "BasePath": "_content/dstp1",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "dstp1/wwwroot",
+      "Source": "dstp1",
+      "ContentRoot": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/",
+      "BasePath": "_content/dstp1",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/css/index.css",
+      "SourceId": "dstp1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/",
+      "BasePath": "_content/dstp1",
+      "RelativePath": "css/index.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/index.css"
+    },
+    {
+      "Identity": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/index.html",
+      "SourceId": "dstp1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/",
+      "BasePath": "_content/dstp1",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    },
+    {
+      "Identity": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/js/index.js",
+      "SourceId": "dstp1",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/tuti/Projects/Universty/Diseño de Sistemas/TP 1/wwwroot/",
+      "BasePath": "_content/dstp1",
+      "RelativePath": "js/index.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/index.js"
+    }
+  ]
 }

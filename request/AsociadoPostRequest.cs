@@ -1,9 +1,8 @@
 using System;
-using DSTP1;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace DSTP1_Request
+namespace dstp1_request
 {
     public class AsociadoPostRequest
     {
