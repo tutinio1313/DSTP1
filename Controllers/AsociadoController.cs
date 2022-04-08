@@ -52,6 +52,38 @@ public class AsociadoController : ControllerBase
     {
         string json = System.IO.File.ReadAllText(asociadosJsonPath);
         asociados = JsonConvert.DeserializeObject<List<Asociado>>(json);
+
+        if(asociados == null)
+        {
+            asociados = new List<Asociado>();
+        }
+    }
+
+    private Asociado ModificarAsociado(AsociadoPutRequest request, Asociado asociado)
+    {
+        if(request.Domicilio != null)
+        {
+            asociado.Domicilio = request.Domicilio;
+        }
+        if(request.Email != null)
+        {
+            asociado.Email = request.Email;
+        }
+        if(request.Telefono != null)
+        {
+            asociado.Telefono = request.Telefono;
+        }
+        if(request.Localidad != null)
+        {
+            asociado.Localidad = request.Localidad; 
+        }
+        if(request.Domicilio != null)
+        {
+            asociado.Domicilio = request.Domicilio;
+        }
+        asociado.EstaEnfermo = request.EstaEnfermo;
+        asociado.EstaMedicado = request.EstaMedicado;
+        return asociado;
     }
 
     [HttpGet(Name = "GetAsociado")]
@@ -86,8 +118,7 @@ public class AsociadoController : ControllerBase
         {
             Asociado asociado = CrearAsociado(request);
             response.Executionsuccessful = true;
-            response.asociado = asociado;
-            
+            response.asociado = asociado;            
         }
         else
         {
@@ -95,6 +126,26 @@ public class AsociadoController : ControllerBase
             response.errorMessage = "El dni ingresado fue cargado anteriormente, por favor corrobore lo ingresado";
         }
                         
+        return response;
+    }
+
+    [HttpPut(Name = "PutAsociado")]
+    public async Task<AsociadoPutResponse> Put(AsociadoPutRequest request)
+    {
+        AsociadoPutResponse response = new AsociadoPutResponse();
+        CargarAsociados();
+        if(asociados.Exists(x=> x.ID == request.ID))
+        {
+            Asociado asociadoACambiar = asociados.Find(x => x.ID == request.ID);
+            asociados.Remove(asociadoACambiar);
+            response.asociado = ModificarAsociado(request, asociadoACambiar);
+            response.ExecutionSuccessful = true;
+        }
+        else
+        {
+            response.ExecutionSuccessful = false;
+            response.ErrorMessage = "El asociado parece que no se ha encontrado, por favor revise el DNI ingresado.";
+        }
         return response;
     }
 }

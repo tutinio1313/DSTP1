@@ -5,6 +5,6 @@ namespace dstp1
     public class Solicitante
     {
         public string ID {get; set;} //Este va a ser el CUIL o DNI.
-        public string nombre {get; set;}
+        public string Nombre {get; set;}
     }    
 }

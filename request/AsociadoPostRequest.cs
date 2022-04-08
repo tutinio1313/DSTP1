@@ -8,8 +8,8 @@ namespace dstp1_request
     {
         [Required(ErrorMessage = "Debes ingresar tu DNI.")]
         [DataType(DataType.Text)]
-        [MinLength(7)]
-        [MaxLength(8)]
+        //[MinLength(7)]
+        //[MaxLength(8)] Si activas la linea 11 y 12 hará que los ID esten entre [1,000,000 | 99,999,999]
         [RegularExpression("^[0-9]+$")]
         public string ID {get; set;}
 
@@ -54,6 +54,7 @@ namespace dstp1_request
         [Required(ErrorMessage = "Debes ingresar el factor de tu grupo sanguineo.")]
         [DataType(DataType.Text)]
         [RegularExpression("^[+-]")]
+        [MaxLength(1)]
         public string Factor {get; set;}
     }
 }
