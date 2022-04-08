@@ -85,6 +85,16 @@ public class AsociadoController : ControllerBase
         asociado.EstaMedicado = request.EstaMedicado;
         return asociado;
     }
+
+     private List<Asociado> ObtenerAsociados(int index)
+    {
+        List<Asociado> partialAsociados = new List<Asociado>(); 
+        for(;index < index+5; index++)
+        {
+            partialAsociados.Add(asociados[index]);
+        }
+        return partialAsociados;
+    }
     
     private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "O");
 
@@ -94,16 +104,16 @@ public class AsociadoController : ControllerBase
         CargarAsociados();
         AsociadoGetResponse response = new AsociadoGetResponse();
 
-        if(asociados.Exists(x=> x.ID == ID))
+        if(asociados.Count > 0)
         {
-            response.asociado = asociados.Find(x=> x.ID == ID); 
-            response.Executionsuccessful = true;        
+            response.asociados = ObtenerAsociados(int.Parse(ID));
+            response.ExecutionSuccessful = true;
         }
 
         else
         {
-            response.Executionsuccessful = false;
-            response.errorMessage = "El dni del asociado ingresado no se encuentra, por favor revise los datos ingresados.";
+            response.ExecutionSuccessful = false;
+            response.ErrorMessage = "El dni del asociado ingresado no se encuentra, por favor revise los datos ingresados.";
         }
         return response;
     }
@@ -121,19 +131,19 @@ public class AsociadoController : ControllerBase
             if(GrupoSanguineoEsCorrecto(request.GrupoSanguineo))
             {
             Asociado asociado = CrearAsociado(request);
-            response.Executionsuccessful = true;
+            response.ExecutionSuccessful = true;
             response.asociado = asociado;            
             }
             else
             {
-                response.Executionsuccessful = false;
-                response.errorMessage = "El tipo de sangre ingresado es incorrecto, por favor corrobore lo ingresado";
+                response.ExecutionSuccessful = false;
+                response.ErrorMessage = "El tipo de sangre ingresado es incorrecto, por favor corrobore lo ingresado";
             }
         }
         else
         {
-            response.Executionsuccessful = false;
-            response.errorMessage = "El dni ingresado fue cargado anteriormente, por favor corrobore lo ingresado";
+            response.ExecutionSuccessful = false;
+            response.ErrorMessage = "El dni ingresado fue cargado anteriormente, por favor corrobore lo ingresado";
         }
                         
         return response;
@@ -176,7 +186,7 @@ public class AsociadoController : ControllerBase
        else
        {
            response.ExecutionSuccessful = false;
-           response.ErrorMessage = "El solicitante a borrrar no se ha encontrado.";
+           response.ErrorMessage = "El asociado a borrrar no se ha encontrado.";
        }
        return response;
    }

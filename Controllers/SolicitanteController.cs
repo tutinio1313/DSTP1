@@ -48,6 +48,15 @@ public class SolicitanteController : ControllerBase
 
         return solicitante;
     }
+    private List<Solicitante> ObtenerSolicitantes(int index)
+    {
+        List<Solicitante> partialSolicitantes = new List<Solicitante>(); 
+        for(;index < index+5; index++)
+        {
+            partialSolicitantes.Add(solicitantes[index]);
+        }
+        return partialSolicitantes;
+    }
 
     [HttpGet(Name = "GetSolicitante")]
 
@@ -55,15 +64,16 @@ public class SolicitanteController : ControllerBase
     {
         CargarSolicitantes();
         SolicitanteGetResponse response = new SolicitanteGetResponse();
-        if(solicitantes.Exists(x=> x.ID == ID))
+        
+        if(solicitantes.Count > 0)
         {
-            response.solicitante = solicitantes.Find(x=> x.ID == ID);
+            response.solicitante = ObtenerSolicitantes(int.Parse(ID));
             response.ExecutionSuccessful = true;
         }
         else
         {
             response.ExecutionSuccessful = false;
-            response.errorMessage = "La organización solicitante de Sangre no se ha encontrado."; 
+            response.ErrorMessage = "La organización solicitante de Sangre no se ha encontrado."; 
         }
 
         return response;
@@ -85,7 +95,7 @@ public class SolicitanteController : ControllerBase
         else
         {
             response.ExecutionSuccessful = false;
-            response.errorMessage = "El solicitante o persona ya esta registrada.";
+            response.ErrorMessage = "El solicitante o persona ya esta registrada.";
         }
         return response;
     }
@@ -109,7 +119,7 @@ public class SolicitanteController : ControllerBase
        else 
        {
            response.ExecutionSuccessful = false;
-           response.errorMessage = "El solicitante no se ha encontrado";
+           response.ErrorMessage = "El solicitante no se ha encontrado";
        }
        return response;
    }

@@ -3,10 +3,8 @@ using dstp1;
 
 namespace dstp1_response
 {
-    public class AsociadoPutResponse
+    public class AsociadoPutResponse: Response
     {
-        public Asociado? asociado {get; set;}
-        public bool ExecutionSuccessful {get; set;}
-        public string ErrorMessage {get; set;}        
+        public Asociado? asociado {get; set;}     
     }
 }

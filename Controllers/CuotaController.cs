@@ -35,16 +35,25 @@ public class CuotaController : ControllerBase
         return cuota;
     }
 
+    private List<Cuota> ObtenerCuotas(int index)
+    {
+        List<Cuota> partialCuotas = new List<Cuota>(); 
+        for(;index < index+5; index++)
+        {
+            partialCuotas.Add(cuotas[index]);
+        }
+        return partialCuotas;
+    }
+
     [HttpGet(Name ="GetCuota")]
     public async Task<CuotaGetResponse> Get([FromQuery] string ID)
     {
         CargarCuotas();
         CuotaGetResponse response = new CuotaGetResponse();
-        bool cuotaExiste = cuotas.Exists(x=> x.ID == ID);
-
-        if(cuotaExiste)
+        
+        if(cuotas.Count > 0)
         {
-            response.cuota = cuotas.Find(x=> x.ID == ID);
+            response.cuotas = ObtenerCuotas(int.Parse(ID));
             response.ExecutionSuccessful = true;
         }
 

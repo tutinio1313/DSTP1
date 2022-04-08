@@ -1,12 +1,11 @@
 using System;
 using dstp1;
+using System.Collections.Generic;
 
 namespace dstp1_response
 {
-    public class SolicitanteGetResponse
+    public class SolicitanteGetResponse: Response
     {
-        public Solicitante? solicitante {get; set;}
-        public string? errorMessage {get;set;}
-        public bool ExecutionSuccessful {get; set;}
+        public List<Solicitante>? solicitante {get; set;}
     }
 }

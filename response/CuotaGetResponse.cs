@@ -1,12 +1,11 @@
 using System;
 using dstp1;
+using System.Collections.Generic;
 
 namespace dstp1_response
 {
-    public class CuotaGetResponse
+    public class CuotaGetResponse : Response
     {
-        public Cuota? cuota {get;set;}
-        public bool ExecutionSuccessful {get;set;}
-        public string? ErrorMessage {get;set;}
+        public List<Cuota>? cuotas {get;set;}
     }
 }

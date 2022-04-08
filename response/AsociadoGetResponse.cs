@@ -1,12 +1,11 @@
 using System;
 using dstp1;
+using System.Collections.Generic;
 
 namespace dstp1_response
 {
-    public class AsociadoGetResponse
+    public class AsociadoGetResponse: Response
     {
-        public Asociado? asociado {get; set;}
-        public string? errorMessage {get;set;}
-        public bool Executionsuccessful {get; set;}
+        public List<Asociado>? asociados {get; set;}
     }
 }
