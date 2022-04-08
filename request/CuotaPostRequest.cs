@@ -13,7 +13,11 @@ namespace dstp1_request
     
     [Required(ErrorMessage = "La fecha de emisión es necesaria, por favor ingresela.")]   
     [DataType(DataType.DateTime)]
-    public DateTime FechaEmision {get; set;}
+    public DateTime FechaEmitida {get; set;}   
+    
+    [Required(ErrorMessage = "La fecha de vencimiento es necesaria, por favor ingresela.")]   
+    [DataType(DataType.DateTime)]
+    public DateTime FechaVencimiento {get; set;}
 
     [Required(ErrorMessage = "El importe de la cuota es necesario, por favor ingreselo.")]   
     [DataType(DataType.Currency)]  

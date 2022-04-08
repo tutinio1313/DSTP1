@@ -5,6 +5,6 @@ namespace dstp1_response
 {
     public abstract class PedidoDeleteResponse : Response
     {
-        public Pedido pedido {get; set;}
+        public Pedido? pedido {get; set;}
     }
 }

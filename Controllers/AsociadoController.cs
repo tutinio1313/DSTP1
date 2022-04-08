@@ -89,7 +89,7 @@ public class AsociadoController : ControllerBase
      private List<Asociado> ObtenerAsociados(int index)
     {
         List<Asociado> partialAsociados = new List<Asociado>(); 
-        for(;index < index+5; index++)
+        for(int i = 0;i < index; i++)
         {
             partialAsociados.Add(asociados[index]);
         }
@@ -104,7 +104,7 @@ public class AsociadoController : ControllerBase
         CargarAsociados();
         AsociadoGetResponse response = new AsociadoGetResponse();
 
-        if(asociados.Count > 0)
+        if(asociados.Count > 0 && int.Parse(ID) < asociados.Count && int.Parse(ID) > 0)
         {
             response.asociados = ObtenerAsociados(int.Parse(ID));
             response.ExecutionSuccessful = true;

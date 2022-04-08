@@ -3,8 +3,8 @@ using dstp1;
 
 namespace dstp1_response
 {
-    public abstract class PedidoPostResponse : Response
+    public class PedidoPostResponse : Response
     {
-        public Pedido pedido {get; set;}
+        public Pedido? pedido {get; set;}
     }
 }
