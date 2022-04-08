@@ -10,7 +10,7 @@ namespace dstp1.Controllers;
 [Route("[controller]")]
 public class SolicitanteController : ControllerBase
 { 
-    public string solicitantesJsonPath = Directory.GetCurrentDirectory() + "/db/solicitante.json";
+    public string solicitantesJsonPath = Directory.GetCurrentDirectory() + "/db/solicitantes.json";
     public List<Solicitante> solicitantes = new List<Solicitante>();
 
     private readonly ILogger<SolicitanteController> _logger;
@@ -40,6 +40,13 @@ public class SolicitanteController : ControllerBase
     {
         string json = System.IO.File.ReadAllText(solicitantesJsonPath);
         solicitantes = JsonConvert.DeserializeObject<List<Solicitante>>(json);
+    }
+
+    private Solicitante ModificarSolicitante(SolicitantePutRequest request, Solicitante solicitante)
+    {
+        solicitante.Nombre = request.Nombre;
+
+        return solicitante;
     }
 
     [HttpGet(Name = "GetSolicitante")]
@@ -83,5 +90,49 @@ public class SolicitanteController : ControllerBase
         return response;
     }
     
-    //[HttpPut(Name = "PutSolicitante")]
-}
+   [HttpPut(Name = "PutSolicitante")]
+
+   public async Task<SolicitantePutResponse> Put(SolicitantePutRequest request)
+   {
+       CargarSolicitantes();
+       bool existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
+       SolicitantePutResponse response = new SolicitantePutResponse();
+
+       if(existeSolicitante)
+       {
+           Solicitante solicitante = solicitantes.Find(x=> x.ID == request.ID);
+           response.ExecutionSuccessful = true;
+           response.solicitante = ModificarSolicitante(request, solicitante);
+           solicitantes.Remove(solicitante);
+       }
+
+       else 
+       {
+           response.ExecutionSuccessful = false;
+           response.errorMessage = "El solicitante no se ha encontrado";
+       }
+       return response;
+   }
+
+   [HttpDelete(Name = "Delete")]
+
+   public async Task<SolicitanteDeleteResponse> Delete(SolicitanteDeleteRequest request)
+   {     
+       CargarSolicitantes();
+       bool existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
+       SolicitanteDeleteResponse response = new SolicitanteDeleteResponse();
+
+       if(existeSolicitante)
+       {
+           response.ExecutionSuccessful = true;
+           response.solicitante = solicitantes.Find(x=> x.ID == request.ID);
+           solicitantes.Remove(solicitantes.Find(x=> x.ID == request.ID));
+       }
+       else
+       {
+           response.ExecutionSuccessful = false;
+           response.ErrorMessage = "El solicitante a borrrar no se ha encontrado.";
+       }
+       return response;
+   }
+ }

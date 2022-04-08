@@ -41,9 +41,9 @@ public class AsociadoController : ControllerBase
         return asociado;
     }
 
-    private void GuardarAsociado(Asociado asociado)
+    private void GuardarAsociado(Asociado? asociado)
     {
-        asociados.Add(asociado);
+        if(asociado != null) asociados.Add(asociado);   
         string temp = JsonConvert.SerializeObject(asociados);        
         System.IO.File.WriteAllText(asociadosJsonPath, temp);
     }
@@ -85,6 +85,8 @@ public class AsociadoController : ControllerBase
         asociado.EstaMedicado = request.EstaMedicado;
         return asociado;
     }
+    
+    private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "O");
 
     [HttpGet(Name = "GetAsociado")]
     public async Task<AsociadoGetResponse> Get([FromQuery] string ID)
@@ -116,9 +118,17 @@ public class AsociadoController : ControllerBase
         
         if(!existeAsociado)
         {
+            if(GrupoSanguineoEsCorrecto(request.GrupoSanguineo))
+            {
             Asociado asociado = CrearAsociado(request);
             response.Executionsuccessful = true;
             response.asociado = asociado;            
+            }
+            else
+            {
+                response.Executionsuccessful = false;
+                response.errorMessage = "El tipo de sangre ingresado es incorrecto, por favor corrobore lo ingresado";
+            }
         }
         else
         {
@@ -148,4 +158,26 @@ public class AsociadoController : ControllerBase
         }
         return response;
     }
+
+    [HttpDelete(Name = "RemoveAsociado")]
+       public async Task<AsociadoDeleteResponse> Delete(AsociadoDeleteRequest request)
+   {     
+       CargarAsociados();
+       bool existeAsociado = asociados.Exists(x=> x.ID == request.ID); 
+       AsociadoDeleteResponse response = new AsociadoDeleteResponse();
+
+       if(!existeAsociado)
+       {
+           response.ExecutionSuccessful = true;
+           response.asociado = asociados.Find(x=> x.ID == request.ID);
+           asociados.Remove(asociados.Find(x=> x.ID == request.ID));
+           GuardarAsociado(null);
+       }
+       else
+       {
+           response.ExecutionSuccessful = false;
+           response.ErrorMessage = "El solicitante a borrrar no se ha encontrado.";
+       }
+       return response;
+   }
 }
