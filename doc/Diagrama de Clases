@@ -1,53 +1,55 @@
-ClassDiagram [frame=true framecolor=steelblue label="Banco de Sangre"]
+ClassDiagram [frame=false framecolor=steelblue label="Banco de Sangre"]
 { 
  abstract class Asociado 
   {
-  	 private id : string;
-   	 private nombre : string;
-  	 private apellido : string;
-  	 private email : string;
-  	 private esDonante : bool;  
-     private estaMedicado : bool;
-     private esEnfermo : bool;
-		 private localidad : string;
-     private domicilio : string;
-     private grupoSanguineo : string;
-     private factor : string;
+	private id : string;
+   	private nombre : string;
+  	private apellido : string;
+  	private email : string;
+  	private esDonante : bool;  
+     	private estaMedicado : bool;
+     	private esEnfermo : bool;
+	private localidad : string;
+     	private domicilio : string;
+     	private grupoSanguineo : string;
+     	private factor : string;
+	
+	public setEsDonante();
  }
   
  abstract class Pedido
   {
-     private id : string;
-     private idSolicitante : string;
-     private fechaEmision : DateTime;
-     private fechaVencimiento : DateTime;
-     private completado : bool;
-     private cantidadSolicitada : double;
+     	private id : string;
+     	private idSolicitante : string;
+     	private fechaEmision : DateTime;
+     	private fechaVencimiento : DateTime;
+     	private completado : bool;
+     	private cantidadSolicitada : double;
   }
   
   abstract class Donacion
   {
-    private id : string;
-    private idAsociado : string;
-    private idPedido : string;
-    private cantidad : double;
-		private fecha : DateTime;
+    	private id : string;
+    	private idAsociado : string;
+    	private idPedido : string;
+    	private cantidad : double;
+	fecha : DateTime;
   }
   
   abstract class Solicitante
   {
-    private id : string;
-    private cuil: string;
-    private nombre : string;
+    	private id : string;
+    	private cuil: string;
+    	private nombre : string;
   }
   
   abstract class Cuota
   {
-    private id : string;
-    private idAsociado : string;
-    private fechaEmitida : DateTime;
-    private importe : double;  
-    private estaPagado : bool;
+    	private id : string;
+    	private idAsociado : string;
+    	private fechaEmitida : DateTime;
+    	private importe : double;  
+    	private estaPagado : bool;
   }
   
   
