@@ -29,11 +29,11 @@ ClassDiagram [frame=false framecolor=steelblue label="Banco de Sangre"]
   
   abstract class Donacion
   {
-    	private id : string;
-    	private idAsociado : string;
-    	private idPedido : string;
-    	private cantidad : double;
-	fecha : DateTime;
+    private id : string;
+    private idAsociado : string;
+    private idPedido : string;
+    private cantidad : double;
+		private fecha : DateTime;
   }
   
   abstract class Solicitante
