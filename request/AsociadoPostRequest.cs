@@ -1,15 +1,16 @@
 using System;
-using DSTP1;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace DSTP1_Request
+namespace dstp1_request
 {
     public class AsociadoPostRequest
     {
         [Required(ErrorMessage = "Debes ingresar tu DNI.")]
         [DataType(DataType.Text)]
-        [Range(7,8)]
+        //[MinLength(7)]
+        //[MaxLength(8)] Si activas la linea 11 y 12 hará que los ID esten entre [1,000,000 | 99,999,999]
+        [RegularExpression("^[0-9]+$")]
         public string ID {get; set;}
 
         [Required(ErrorMessage = "Debes ingresar tu nombre.")]
@@ -31,9 +32,6 @@ namespace DSTP1_Request
         [Required(ErrorMessage = "Debes ingresar tu número teléfonico.")]
         [DataType(DataType.PhoneNumber)]        
         public string Telefono {get; set;}
-
-        [Required(ErrorMessage = "Debes ingresar tu condición como donante.")]
-        public bool EsDonante {get; set;}
         [Required(ErrorMessage = "Debes ingresar tu condición de salud.")]
         public bool EstaEnfermo {get; set;}
         [Required(ErrorMessage = "Debes ingresar si consumes algun medicamento.")]
@@ -47,11 +45,16 @@ namespace DSTP1_Request
         public string Domicilio {get; set;}
 
         [Required(ErrorMessage = "Debes ingresar tu grupo sanguineo.")]
-        [DataType(DataType.Custom)]
+        [DataType(DataType.Text)]
+        [RegularExpression("^[ABO]")]
+        [MinLength(1)]
+        [MaxLength(2)]
         public string GrupoSanguineo {get; set;}
 
         [Required(ErrorMessage = "Debes ingresar el factor de tu grupo sanguineo.")]
-        [DataType(DataType.Custom)]
+        [DataType(DataType.Text)]
+        [RegularExpression("^[+-]")]
+        [MaxLength(1)]
         public string Factor {get; set;}
     }
 }

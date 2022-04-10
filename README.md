@@ -36,3 +36,6 @@ Mensualmente se hace un listado de los asociados con cuotas no pagas, además ge
 </ul>
 
 <p style = "text-align : justify;"> Sí bien son unicamente tres iteraciones, buscamos hacer tres etapas con puntos delimitados pero con flexibilidad esto se puede ver en el feedback del cliente en cada iteración donde tendrá voz para cambiar cosas, sí bien ya se ha hecho un estudio de la empresa buscando los requerimientos de lo que debemos hacer, siempre pueden generarse diferentes requerimientos o cambiar debido a la naturaleza de las organizaciones humanas que se encuentran en un contexto dinámico.</p>
+
+<h2>Progreso</h2>
+<p>Más alla de lo planteado en las iteraciones, para seguir más de cerca el proyecto, se puede hacer desde <a href="https://trello.com/b/skcBIqif/dise%C3%B1o-de-sistemas-tp1">Trello</a> y <a href ="https://www.figma.com/file/4PTE6pRpII4zHQmzRZdz0x/Untitled?node-id=7%3A2">Figma</a>, donde se puede seguir de una mejor manera lo que se hizo, lo que se esta haciendo y lo planificado. </p>

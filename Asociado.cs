@@ -1,6 +1,6 @@
 using System;
 
-namespace DSTP1
+namespace dstp1
 {
     public class Asociado
     {
@@ -17,5 +17,12 @@ namespace DSTP1
         public string Domicilio {get; set;}
         public string GrupoSanguineo {get; set;}
         public string Factor {get; set;}
+
+        public void SetEsDonante()
+        {
+            if(!EstaEnfermo && !EstaMedicado)
+            {
+                EsDonante = true;
+            }
+        }
     }
-}
