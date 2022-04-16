@@ -99,12 +99,13 @@ public class AsociadoController : ControllerBase
     private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "O");
 
     [HttpGet(Name = "GetAsociado")]
-    public async Task<AsociadoGetResponse> Get([FromQuery] string ID)
+    public async Task<AsociadoGetResponse> Get(/*[FromQuery] string ID*/)
     {
         CargarAsociados();
         AsociadoGetResponse response = new AsociadoGetResponse();
+        /* bool existenAsociados = asociados.Count > 0 && int.Parse(ID) < asociados.Count && int.Parse(ID) > 0;
 
-        if(asociados.Count > 0 && int.Parse(ID) < asociados.Count && int.Parse(ID) > 0)
+        if(existenAsociados)
         {
             response.asociados = ObtenerAsociados(int.Parse(ID));
             response.ExecutionSuccessful = true;
@@ -114,7 +115,8 @@ public class AsociadoController : ControllerBase
         {
             response.ExecutionSuccessful = false;
             response.ErrorMessage = "El dni del asociado ingresado no se encuentra, por favor revise los datos ingresados.";
-        }
+        }*/
+        response.asociados = asociados;
         return response;
     }
 
@@ -154,6 +156,7 @@ public class AsociadoController : ControllerBase
     {
         AsociadoPutResponse response = new AsociadoPutResponse();
         CargarAsociados();
+        
         if(asociados.Exists(x=> x.ID == request.ID))
         {
             Asociado asociadoACambiar = asociados.Find(x => x.ID == request.ID);

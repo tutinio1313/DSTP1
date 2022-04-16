@@ -25,27 +25,46 @@
                 <div id = "MainBody">
                     <h2>Asociados</h2>
                     <hr>
+
+                    <table style="margin-left: 3%; width: 90%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th>DNI</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>¿Es donante?</th>   
+                                <th>Localidad</th>
+                                <th>Tel</th>
+                                <th>Domicilio</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id = "asociadoTable">
+
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add" onclick="ShowOverlapView('AddView', 'Asociado')">Agregar</button>
+                    <button id = "add" onclick="AsociadoAddView.style.display = 'inherit'">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
 
                 <div id = 'AsociadoAddView' style="display: none;">
-                    <h3 style="text-align: center;">Usted esta agregando un Asociado.</h3>
+                    <button id ="dismissOverlap" style="display: flex; flex-direction: row-reverse; background-color: transparent; color: red; border: 2px solid red; border-radius: 9px; "  onclick="document.getElementById('AsociadoAddView').style = 'display : none;';">x</button>
+                    <h3 style="text-align: center;">Usted esta agregando un Asociado</h3>
                     <hr>
                     <div id = "columns">
                         <div id = "columnA" style="width: 50%; margin-right: 2%;">
                             <h4>Ingrese el nombre</h4>
-                            <input id = "asociadoName" type="text">
+                            <input id = "asociadoName" onchange="AsociadoCanPost()" type="text" onchange="AsociadoCanPost()">
                             
                             <h4>Ingrese el Apellido</h4>
-                            <input id = "asociadoLastName" type="text">
+                            <input id = "asociadoLastName" onchange="AsociadoCanPost()" type="text">
 
                             <h4>Ingrese el correo Electronico</h4>
-                            <input id = "asociadoEmail" type="text">
+                            <input id = "asociadoEmail" onchange="AsociadoCanPost()" type="email">
                             
                             <h4>¿El asociado posee una enfermedad crónica?</h4>
                             <div style="display: flex; flex-direction:row; ">
@@ -54,8 +73,8 @@
                             </div>
 
                             <div style="display: flex; flex-direction:row;">
-                                <input type="checkbox" id = "asociadoEstaEnfemo" style="margin-right: 15%;"/>
-                                <input type="checkbox" id = "asociadoNoEstaEnfemo" />
+                                <input type="checkbox" onchange="AsociadoCanPost()" id="asociadoEstaEnfermo" style="margin-right: 15%;" onclick="SetEstaEnfermo('asociadoEstaEnfermo')"/>
+                                <input type="checkbox" onchange="AsociadoCanPost()" checked id="asociadoNoEstaEnfermo" onclick="SetEstaEnfermo('asociadoNoEstaEnfermo')"/>
                             </div>                        
                             <h4>¿El asociado toma medicamentos recetados?</h4>
 
@@ -65,41 +84,61 @@
                             </div>
 
                             <div style="display: flex; flex-direction:row;">
-                                <input type="checkbox" id = "asociadoMedicado" alt="SI" style="margin-right: 15%;"/>
-                                <input type="checkbox" id = "asociadoNoEstaMedicado" alt="NO"/>                        
+                                <input type="checkbox" id = "asociadoEstaMedicado" onchange="AsociadoCanPost()" alt="SI" style="margin-right: 15%;" onclick="SetAsociadoMedicado('asociadoEstaMedicado')"/>
+                                <input type="checkbox" id = "asociadoNoEstaMedicado" onchange="AsociadoCanPost()" checked alt="NO" onclick="SetAsociadoMedicado('asociadoNoEstaMedicado')"/>                        
                             </div>
+
+                            <h4>Ingrese la fecha de nacimiento:</h4>
+                            <input id = "asociadoFechaNacimiento" onchange="AsociadoCanPost()" type="date">
                         </div>
                         
                         <div id = "columnB" style="grid-column: 2; margin-left: 2%; margin-right: 3.5%;">
                             <h4>Ingrese el DNI del asociado.</h4>
-                            <input type="text" id="asociadoID">
+                            <input type="number" min="1000000" max="99999999" step="1" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoID">
 
                             <h4>Ingrese la localidad</h4>
-                            <input type="text" id ="asociadoLocalidad">
+                            <input type="text" onchange="AsociadoCanPost()" id ="asociadoLocalidad">
 
                             <h4>Ingrese el domicilio</h4>
-                            <input type="text" id = "asociadoDomicilio">
+                            <input type="text" onchange="AsociadoCanPost()" id = "asociadoDomicilio">
 
                             <h4>Ingrese el grupo sanguineo</h4>
                             
                             <div style="display: flex; flex-direction:row; ">
-                                <p style="margin-right: 8%; margin-left: 3%;">A</p>
-                                <p style="margin-left: 9%;">B</p>
-                                <p style="margin-left: 18%;">O</p>
-                                <p style="margin-left: 18%;">AB</p>
+                                <p style="margin-right: 7%; margin-left: 5%;">A</p>
+                                <p style="margin-left: 23%;">B</p>
+                                <p style="margin-left: 23%;">O</p>
+                                <p style="margin-left: 23%;">AB</p>
                             </div>
 
-                            <div id="asociadoGrupoSanguineo"style="display: flex; flex-direction:row; margin-top:-15%;">
-                                <input type="checkbox" id = "asociadoGrupoSanguineoA" style="margin-right: 15%;"/>
-                                <input type="checkbox" id = "asociadoGrupoSanguineoB" style="margin-right: 15%;"/>
-                                <input type="checkbox" id = "asociadoGrupoSanguineoO" style="margin-right: 15%;"/>
-                                <input type="checkbox" id = "asociadoGrupoSanguineoAB"style="margin-right: 15%;"/>                        
+                            <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row; margin-top:-15%;">
+                                <input type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="O" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
+                            </div>
+                            
+                            <h4>Ingrese el factor de Sangre</h4>
+
+                            <div style="display: flex; flex-direction:row; ">
+                                <p style="margin-right: 23%; margin-left: 3%;">+</p>
+                                <p>-</p>
                             </div>
 
+                            <div style="display: flex; flex-direction:row; margin-top: -15%;">
+                                <input type="checkbox" onchange="AsociadoCanPost()" id = "asociadoFactorPositivo" value="+" style="margin-right: 15%;" onclick="SetAsociadoFactor('asociadoFactorPositivo')"/>
+                                <input type="checkbox" onchange="AsociadoCanPost()" id = "asociadoFactorNegativo" value="-" onclick="SetAsociadoFactor('asociadoFactorNegativo')"/>                        
+                            </div>
+
+                            <h4>Ingrese el número de telefono</h4>
+                            <input type="number" onchange="AsociadoCanPost()" min="0" step="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoTelefono">
+
+                            
                         </div>
-                    </div>
-
-                    <button type="submit" id = "Submit">Ingresar</button>
+                    </div>                    
+                    <hr>
+                    <button type="submit" id = "SubmitAsociado" onclick="PostAsociado()">Ingresar</button>
+                    <h4 id="StateExecution" style="text-align: center; display: none;"></h4>
                 </div>
             </div>
 
