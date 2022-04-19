@@ -24,7 +24,7 @@ Mensualmente se hace un listado de los asociados con cuotas no pagas, además ge
 </ul>
 
 <h2>Diagrama de Clases</h2>
-<img src="https://user-images.githubusercontent.com/43465958/161407748-ad0b3a75-8b5d-4e20-96f1-7f976afd292c.svg" alt="Diagrama de Clases">
+<img src="https://user-images.githubusercontent.com/43465958/163737434-49d21273-3662-40fe-83c2-0c71410165c7.png" alt="Diagrama de Clases">
 
 <h2>Iteraciones</h2>
 <p style = "text-align : justify;">Sí bien no se genera una estructura de entregas/versiones muy estructurada, tendemos cierto hilo conductor o guía para la construcción del proyecto, las cuales son las siguientes:</p>
