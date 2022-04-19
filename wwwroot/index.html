@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href = "css/index.css" rel="stylesheet"/>
         <script src="js/index.js"></script>
-        <title>Projecto Banco de Sangre</title>
+        <title>Proyecto Banco de Sangre</title>
     </head>
     <body>
         <div id = "buttons">
@@ -26,7 +26,7 @@
                     <h2>Asociados</h2>
                     <hr>
 
-                    <table style="margin-left: 3%; width: 90%; border-collapse: collapse;">
+                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
                                 <th>DNI</th>
@@ -51,8 +51,8 @@
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
 
-                <div id = 'AsociadoAddView' style="display: none;">
-                    <button id ="dismissOverlap" style="display: flex; flex-direction: row-reverse; background-color: transparent; color: red; border: 2px solid red; border-radius: 9px; "  onclick="document.getElementById('AsociadoAddView').style = 'display : none;';">x</button>
+                <div id = 'AsociadoAddView' style="display: none; margin-top: -10%;">
+                    <button id ="dismissOverlap" onclick="document.getElementById('AsociadoAddView').style = 'display : none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un Asociado</h3>
                     <hr>
                     <div id = "columns">
@@ -137,7 +137,7 @@
                         </div>
                     </div>                    
                     <hr>
-                    <button type="submit" id = "SubmitAsociado" onclick="PostAsociado()">Ingresar</button>
+                    <button type="submit" id = "Submit" onclick="PostAsociado()">Ingresar</button>
                     <h4 id="StateExecution" style="text-align: center; display: none;"></h4>
                 </div>
             </div>
@@ -146,51 +146,146 @@
                 <div id = "MainBody">
                     <h2>Cuotas</h2>
                     <hr>
+
+                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                        <thead>
+                            <tr>
+                                <th>N° Cuota</th>
+                                <th>DNI asociado</th>
+                                <th>Fecha Emitida</th>
+                                <th>Fecha Vencimiento</th>   
+                                <th>Importe</th>
+                                <th>¿Pagado?</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id = "donacionTable">
+
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add">Agregar</button>
+                    <button id = "add" onclick="CuotaAddView.style.display = 'inherit'">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
-                    <button id = "Remove" style="color: brown;">Borrar</button>  
+                    <button id = "Remove" style="color: brown;">Borrar</button>
                 </div>
+
+                <div id = 'CuotaAddView' style="display: none; margin-top: -10%; margin-left: 10%;">
+                    <button id ="dismissOverlap" onclick="document.getElementById('CuotaAddView').style = 'display: none;';">x</button>
+                    <h3 style="text-align: center;">Usted esta agregando una cuota</h3>
+                    <hr>
+
+                    <div id = "column" style="display: grid; place-content: center;">                        
+                        <h4>Seleccione el ID del Asociado:</h4>
+                            
+                        <h4>Seleccione el Importe:</h4>
+                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoID">
+                    </div>
+                    <button type="submit" id="Submit" onclick="" style="margin-top: 3%;">Ingresar</button>
+                </div>                
             </div>
             
-            <div id = "DonacionView" style="display: none;"  onclick="ShowDiv('DonacionView')">
+            <div id = "DonacionView" style="display: none;">
                 <div id = "MainBody">
                     <h2>Donación</h2>
                     <hr>
+
+                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                        <thead>
+                            <tr>
+                                <th>N° Donación</th>
+                                <th>DNI asociado</th>
+                                <th>N° Pedido</th>
+                                <th>Fecha</th>   
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id = "donacionTable">
+
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add">Agregar</button>
+                    <button id = "add" onclick="DonacionAddView.style.display = 'inherit'">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
+
+                <div id = "DonacionAddView" style="display: none; margin-top : -10%; margin-left: 10%;">
+                    <button id ="dismissOverlap" onclick="DonacionAddView.style.display = 'none'">x</button>
+                    <h3 style="text-align: center;">Usted esta agregando una donación</h3>
+                    <hr>
+                </div>
             </div>
 
-            <div id = "PedidoView" style="display: none;"  onclick="ShowDiv('PedidoView')">
+            <div id = "PedidoView" style="display: none;">
                 <div id = "MainBody">
                     <h2>Pedido</h2>
                     <hr>
+
+                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                        <thead>
+                            <tr>
+                                <th>N° Pedido</th>
+                                <th>Cuil solicitante</th>
+                                <th>Fecha Emitida</th>
+                                <th>Fecha Vencimiento</th>   
+                                <th>Cantidad solicitada</th>
+                                <th>¿completado?</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id = "pedidoTable">
+
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add" onclick="ShowOverlapView('add','Asociado')">Agregar</button>
+                    <button id = "add" onclick="PedidoAddView.style.display = 'inherit'">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
                     <button id = "Remove" style="color: brown;">Borrar</button>  
+                </div>
+
+                <div id = "PedidoAddView" style="display: none; margin-top : -10%; margin-left: 10%;">
+                    <button id ="dismissOverlap" onclick="document.getElementById('PedidoAddView').style = 'display: none;';">x</button>
+                    <h3 style="text-align: center;">Usted esta agregando un pedido</h3>
+                    <hr>
                 </div>
             </div>
 
-            <div id = "SolicitanteView" style="display: none;"  onclick="ShowDiv('SolicitanteView')">
+            <div id = "SolicitanteView" style="display: none;">
                 <div id = "MainBody">
                     <h2>Solicitante</h2>
-                    <hr>                    
+                    <hr>
+
+                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                        <thead>
+                            <tr>
+                                <th>CUIL</th>
+                                <th>Razón Social</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id = "solicitanteTable">
+
+                        </tbody>
+                    </table>                    
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add">Agregar</button>
+                    <button id = "add" onclick="SolicitanteAddView.style.display = 'inherit'">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
                     <button id = "Remove" style="color: brown;">Borrar</button>  
+                </div>
+
+                <div id = "SolicitanteAddView" style="display: none; margin-top : -10%; margin-left: 10%;">
+                    <button id ="dismissOverlap" onclick="document.getElementById('SolicitanteAddView').style = 'display: none;';">x</button>
+                    <h3 style="text-align: center;">Usted esta agregando un solicitante</h3>
+                    <hr>
                 </div>
             </div>
         </div>

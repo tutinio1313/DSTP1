@@ -1,7 +1,7 @@
 var ListAsociados;
 const urlAsociado = "https://localhost:7278/Asociado";
 
-function ShowDiv(view)
+async function ShowDiv(view)
 {
     let views = SetViews(); 
     let buttons = SetButtons();
@@ -30,10 +30,9 @@ function ShowDiv(view)
 
     switch (view) {
         case "AsociadoView":
-            ListAsociados = GetAsociados();
+            ListAsociados = await GetAsociados();
             setTimeout(() => {
-                //console.table(ListAsociados.asociados); 
-                console.log(ListAsociados);
+                console.table(ListAsociados); 
             }, 200);
             break;
         case "CuotaView":
@@ -60,7 +59,7 @@ async function GetAsociados()
             headers: 
             {
             'accept' : 'application/json',
-            'Content-Type' : 'application/json',    
+            'Content-Type' : 'application/json; charset=utf-8',    
             }
         })
         .then(response => response.json())
@@ -140,7 +139,7 @@ function SetAsociadoMedicado(checkbox)
 function SetGrupoSanguineo(div)
 {
     var grupos = setGrupos();
-    var grupoSanguineoSelected = document.getElementById(div);
+    const grupoSanguineoSelected = document.getElementById(div);
 
         for(var index = 0; index < grupos.length; index++)
         {
@@ -187,52 +186,83 @@ function AsociadoCanPost()
 
     if(state)
     {
-        document.getElementById('SubmitAsociado').disable = false;
+        document.getElementById('Submit').disable = false;
     }
     else
     {
-        document.getElementById('SubmitAsociado').disable = true;    
+        document.getElementById('Submit').disable = true;    
     }
 
-    return true;
+    return state;
 }
 
-function PostAsociado()
+async function PostAsociado()
 {
     const sePuedeCargar = AsociadoCanPost();
     const AsociadoObject = SetAsociadoObject();
     var htmlState = document.getElementById('StateExecution');
 
-    const response = fetch(urlAsociado,
-        {
-            method : 'POST',
-            headers: 
-            {
-            'accept' : 'application/json',
-            'Content-Type' : 'application/json',    
-            },
-            body : JSON.stringify(AsociadoObject) 
-        })
-        .then(response => response.json())
-        
-    if(response.executionSuccessful)
+    if(sePuedeCargar)
     {
-        htmlState.innerHTML = "El asociado " +asociado.Nombre + " "+ asociado.Apellido  +" se ha cargado exitosamente.";
-        htmlState.style.color = "green"; htmlState.style.display = "inherit"; 
+        const response = await fetch(urlAsociado,
+            {
+                method : 'POST',
+                headers: 
+                {
+                'accept' : 'application/json',
+                'Content-Type' : 'application/json; charset=utf-8',    
+                },
+                body : JSON.stringify(AsociadoObject) 
+            })
+            .then(response => response.json())
+
+            setTimeout(() => {
+                if(response.executionSuccessful)
+                {
+                    htmlState.innerHTML = "El asociado " +AsociadoObject.Nombre + " "+ AsociadoObject.Apellido  +" se ha cargado exitosamente.";
+                    htmlState.style.color = "green"; htmlState.style.display = "inherit"; 
+                    clearInputs("columns");
+                }
+                else
+                {
+                    htmlState.innerHTML = "El asociado ya fue ingresado.";
+                    htmlState.style.color = "red"; htmlState.style.display = "inherit";
+                }            
+            }, 300);      
     }
     else
     {
-        htmlState.innerHTML = "El dni ya fue ingresado.";
+        htmlState.innerHTML = "No has ingresado todos los datos, por favor revise lo ingresado.";
         htmlState.style.color = "red"; htmlState.style.display = "inherit";
     }
+  
 }
+
+function clearInputs(div)
+{
+    const inputs = document.getElementsByTagName('input');
+    
+    for(let i = 0; i < inputs.length -1; i++)
+    {
+        if(inputs[i].Type == "checkbox")
+        {
+            inputs[i].checked = false;
+        }
+
+        else
+        {
+            inputs[i].value = "";
+        }
+    }
+}
+
 function SetAsociado()
 {
     var asociadoName = document.getElementById('asociadoName').value;
     var asociadoLastname = document.getElementById('asociadoLastName').value;
     var asociadoEmail = document.getElementById('asociadoEmail').value;
-    var asociadoEstaEnfermo = SearchEstaEnfermo();
-    var asociadoEstaMedicado = SearchEstaMedicado();
+    var asociadoEstaEnfermo = SearchEstaEnfermo().toString();
+    var asociadoEstaMedicado = SearchEstaMedicado().toString();
     var asociadoID = document.getElementById('asociadoID').value;
     var asociadoLocalidad = document.getElementById('asociadoLocalidad').value;
     var asociadoDomicilio = document.getElementById('asociadoDomicilio').value;
@@ -273,25 +303,25 @@ function SetAsociadoObject()
     var asociadoFechaNacimiento = document.getElementById('asociadoFechaNacimiento').value;
 
     return {
-        "ID" : asociadoID
-        ,"Nombre" : asociadoName
-        ,"Apellido" : asociadoLastname
-        ,"Email" : asociadoEmail
-        ,"FechaNacimiento" : asociadoFechaNacimiento
-        ,"Telefono" : asociadoTelefono
-        ,"EstaEnfermo" : asociadoEstaEnfermo
-        ,"EstaMedicado" : asociadoEstaMedicado
-        ,"Localidad" : asociadoLocalidad
-        ,"Domicilio" : asociadoDomicilio
-        ,"GrupoSanguineo" : asociadoGrupoSanguineo
-        ,"Factor" : asociadoFactorSangre
+        ID : asociadoID
+        ,Nombre : asociadoName
+        ,Apellido : asociadoLastname
+        ,Email : asociadoEmail
+        ,FechaNacimiento : asociadoFechaNacimiento
+        ,Telefono : asociadoTelefono
+        ,EstaEnfermo : asociadoEstaEnfermo
+        ,EstaMedicado : asociadoEstaMedicado
+        ,Localidad : asociadoLocalidad
+        ,Domicilio : asociadoDomicilio
+        ,GrupoSanguineo : asociadoGrupoSanguineo
+        ,Factor : asociadoFactorSangre
     };
 }
 
 function SearchEstaEnfermo()
 {
-    var asociadoEstaEnfermo = document.getElementById('asociadoEstaEnfermo').value;
-    var asociadoNoEstaEnfermo = document.getElementById('asociadoNoEstaEnfermo').value;
+    var asociadoEstaEnfermo = document.getElementById('asociadoEstaEnfermo').checked;
+    var asociadoNoEstaEnfermo = document.getElementById('asociadoNoEstaEnfermo').checked;
 
     if(asociadoEstaEnfermo)
     {
@@ -308,8 +338,8 @@ function SearchEstaEnfermo()
 }
 function SearchEstaMedicado()
 {
-    var asociadoEstaMedicado = document.getElementById('asociadoEstaMedicado').value;
-    var asociadoNoEstaMedicado = document.getElementById('asociadoNoEstaMedicado').value;
+    var asociadoEstaMedicado = document.getElementById('asociadoEstaMedicado').checked;
+    var asociadoNoEstaMedicado = document.getElementById('asociadoNoEstaMedicado').checked;
 
     if(asociadoEstaMedicado)
     {
@@ -326,10 +356,10 @@ function SearchEstaMedicado()
 }
 function SearchGrupoSanguineo()
 {
-    var asociadoGrupoSanguineoA = document.getElementById('asociadoGrupoSanguineoA').value;
-    var asociadoGrupoSanguineoB = document.getElementById('asociadoGrupoSanguineoB').value;
-    var asociadoGrupoSanguineoAB = document.getElementById('asociadoGrupoSanguineoO').value;
-    var asociadoGrupoSanguineoO = document.getElementById('asociadoGrupoSanguineoAB').value;
+    var asociadoGrupoSanguineoA = document.getElementById('asociadoGrupoSanguineoA').checked;
+    var asociadoGrupoSanguineoB = document.getElementById('asociadoGrupoSanguineoB').checked;
+    var asociadoGrupoSanguineoAB = document.getElementById('asociadoGrupoSanguineoO').checked;
+    var asociadoGrupoSanguineoO = document.getElementById('asociadoGrupoSanguineoAB').checked;
 
     if(asociadoGrupoSanguineoA)
     {

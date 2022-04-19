@@ -20,7 +20,10 @@ namespace dstp1
 
         public void SetEsDonante()
         {
-            if(!EstaEnfermo && !EstaMedicado)
+           int edad = DateTime.Today.Subtract(FechaNacimiento).Days/365;
+           bool puedeDonar = (edad > 18) && (edad < 65) ;
+
+            if(!EstaEnfermo && !EstaMedicado && puedeDonar)
             {
                 EsDonante = true;
             }

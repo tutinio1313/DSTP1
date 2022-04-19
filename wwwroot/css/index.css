@@ -66,7 +66,7 @@ body #view div #MainBody
 {
     background-color: #ffffff;
     border : 10px solid #ffffff;
-    border-radius: 10px;
+    border-radius: 25px;
     z-index: 1;
     box-shadow: 4px -3.5px 7px #9caab5 ;
 }
@@ -101,14 +101,14 @@ body #view div #buttons button
     z-index: 1;
 }
 
-body #view div #AsociadoAddView
+body #view div #AsociadoAddView, #CuotaAddView, #DonacionAddView, #PedidoAddView, #SolicitanteAddView
 {
     background-color: #ffffff;
     position: absolute;
     z-index: 3;
     padding: 3%;
-    border: 3px solid #ffffff;
-    border-radius: 15px;
+    border: 5px solid #ffffff;
+    border-radius: 23px;
     left: 17.5%;    
     outline: 100% rgba(0, 0, 0, 75);
     box-shadow: 4px -3.5px 7px #9caab5;
@@ -116,13 +116,9 @@ body #view div #AsociadoAddView
 
 body #view div div table tr
 {
-    border-top-right-radius: 10px; 
-    border-top-left-radius: 10px;
-    font-family: Calibri;
+     font-family: Calibri;
     font-weight: 200;
-    color: lightslategray;
-    border: 1.3px solid #a1acb6;
-    
+    color: lightslategray;    
 }
 
 
@@ -140,7 +136,7 @@ body #view div #AsociadoAddView #columns #columnA, #columnB
     grid-column: 1;
 }
 
-body #view div #AsociadoAddView #columns #columnB input,#columnA input
+body #view div div input
 {
     border: 3px solid gray;
     height: 15px;
@@ -148,13 +144,13 @@ body #view div #AsociadoAddView #columns #columnB input,#columnA input
     text-align: center;
 }
 
-body #view div #AsociadoAddView h4, h3,p
+body #view div div h4, h3,p
 {
     font-family: Calibri;
     font-weight: 300;
 }
 
-body #view div div #SubmitAsociado
+body #view div div #Submit
 {
     margin-top: 3%;
     margin-left: 33%;
@@ -166,26 +162,30 @@ body #view div div #SubmitAsociado
     border: 3px solid;
 }
 
-body #view div div #SubmitAsociado:enabled
+body #view div div #Submit:enabled
 {
     border-color: lightgreen;
     color: green;
 }
 
 
-body #view div div #SubmitAsociado:disabled
+#dismissOverlap
 {
-    border-color: red;
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: transparent;
     color: red;
+    border: 2px solid red;
+    border-radius: 9px; 
 }
 
 
-body #view div #AsociadoAddView #SubmitAsociado:enabled:hover{ animation: EnabledButtonAddHover 500ms forwards;}
+body #view div div #Submit:enabled:hover{ animation: EnabledButtonAddHover 500ms forwards;}
 @keyframes EnabledButtonAddHover{ 100% {background-color: lightgreen; border-color: lightgreen;}}
 
-body #view div #AsociadoAddView #SubmitAsociado:disabled:hover{ animation: DisabledButtonAddHover 500ms forwards;}
+body #view div div #Submit:disabled:hover{ animation: DisabledButtonAddHover 500ms forwards;}
 @keyframes DisabledButtonAddHover{ 100% {background-color: darkred; border-color: darkred;}}
 
-body #view div #AsociadoAddView #dismissOverlap:hover{ animation: buttonDismissHover 500ms forwards;}
+body #view div div #dismissOverlap:hover{ animation: buttonDismissHover 500ms forwards;}
 @keyframes buttonDismissHover{ 100% {background-color: red; color: white;}} 
 
