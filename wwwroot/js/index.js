@@ -31,9 +31,37 @@ async function ShowDiv(view)
     switch (view) {
         case "AsociadoView":
             ListAsociados = await GetAsociados();
-            setTimeout(() => {
-                console.table(ListAsociados); 
-            }, 200);
+            console.log(ListAsociados);
+            if(ListAsociados != null)
+            {
+                if(ListAsociados.length >= 5)
+                {
+                    for(var index = 1; index <= 5; index++)
+                    {
+                        var indexObject = index -1;
+                        var tableRow = document.getElementById("a"+index).children;
+                        console.log(tableRow);
+                        tableRow[0].innerHTML = ListAsociados[indexObject].id;
+                        tableRow[1].innerHTML = ListAsociados[indexObject].nombre;
+                        tableRow[2].innerHTML = ListAsociados[indexObject].apellido;
+                        if(ListAsociados[indexObject].esDonante) tableRow[3].innerHTML = "Si";
+                        else tableRow[3].innerHTML = "No";
+                        tableRow[4].innerHTML = ListAsociados[indexObject].localidad;
+                        tableRow[5].innerHTML = ListAsociados[indexObject].telefono;
+                        tableRow[6].innerHTML = ListAsociados[indexObject].domicilio;
+                    }
+                }
+                // else
+                // {
+                //     for(var index = 1; index <= ListAsociados.length; index++)
+                //     {
+                //         var tableRow = document.getElementById("a"+index).children;
+                //         console.log(tableRow);
+                //         tableRow[0].innerHTML = ListAsociados[index].id;
+                //     }
+                // }
+            }
+
             break;
         case "CuotaView":
 

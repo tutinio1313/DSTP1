@@ -114,10 +114,11 @@ body #view div #AsociadoAddView, #CuotaAddView, #DonacionAddView, #PedidoAddView
     box-shadow: 4px -3.5px 7px #9caab5;
 }
 
-body #view div div table tr
+tr,td
 {
-     font-family: Calibri;
+    font-family: Calibri;
     font-weight: 200;
+    text-align: center;
     color: lightslategray;    
 }
 
