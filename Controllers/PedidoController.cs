@@ -95,10 +95,24 @@ public class PedidoController : ControllerBase
         return response;
     }
 
-    //[HttpDelete(Name = "DeletePedido")]
+    [HttpDelete(Name = "DeletePedido")]
 
-    // public async Task<PedidoDeleteResponse> Delete(PedidoDeleteRequest request)
-    // {
-        
-    // }
+    public async Task<PedidoDeleteResponse> Delete(PedidoDeleteRequest request)
+    {
+        CargarPedidos();
+        bool existePedido = pedidos.Exists(x=> x.ID == request.ID);
+        PedidoDeleteResponse response = new PedidoDeleteResponse();
+
+        if(existePedido)
+        {
+            response.ExecutionSuccessful = true;
+            response.pedido = pedidos.Find(x=> x.ID == request.ID); pedidos.Remove(response.pedido);
+        }        
+        else
+        {
+            response.ExecutionSuccessful = false;
+            response.ErrorMessage = "El pedido no se ha encontrado, por favor revise el n° de pedido.";
+        }
+        return response;
+    }
 }

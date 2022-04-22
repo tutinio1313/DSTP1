@@ -43,7 +43,11 @@ public class AsociadoController : ControllerBase
 
     private void GuardarAsociado(Asociado? asociado)
     {
-        if(asociado != null) asociados.Add(asociado);   
+        if(asociado != null)
+        {
+            asociados.Add(asociado);
+            asociados.OrderBy(x=>x.ID);
+        }    
         string temp = JsonConvert.SerializeObject(asociados);        
         System.IO.File.WriteAllText(asociadosJsonPath, temp);
     }
@@ -52,6 +56,14 @@ public class AsociadoController : ControllerBase
     {
         string json = System.IO.File.ReadAllText(asociadosJsonPath);
         asociados = JsonConvert.DeserializeObject<List<Asociado>>(json);
+        asociados.Sort(delegate(Asociado asociadoA, Asociado asociadoB)
+        {
+            if(asociadoA.ID == null && asociadoB.ID == null) return 0;
+            else if(asociadoA.ID == null) return -1;
+            else if(asociadoB.ID == null) return 1;
+            else return asociadoA.ID.CompareTo(asociadoB.ID);
+        }        
+        );
 
         if(asociados == null)
         {
@@ -99,22 +111,11 @@ public class AsociadoController : ControllerBase
     private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "O");
 
     [HttpGet(Name = "GetAsociado")]
-    public async Task<AsociadoGetResponse> Get([FromQuery] string ID)
+    public async Task<AsociadoGetResponse> Get()
     {
         CargarAsociados();
-        AsociadoGetResponse response = new AsociadoGetResponse();
-
-        if(asociados.Count > 0 && int.Parse(ID) < asociados.Count && int.Parse(ID) > 0)
-        {
-            response.asociados = ObtenerAsociados(int.Parse(ID));
-            response.ExecutionSuccessful = true;
-        }
-
-        else
-        {
-            response.ExecutionSuccessful = false;
-            response.ErrorMessage = "El dni del asociado ingresado no se encuentra, por favor revise los datos ingresados.";
-        }
+        AsociadoGetResponse response = new AsociadoGetResponse();        
+        response.asociados = asociados;
         return response;
     }
 
@@ -154,6 +155,7 @@ public class AsociadoController : ControllerBase
     {
         AsociadoPutResponse response = new AsociadoPutResponse();
         CargarAsociados();
+        
         if(asociados.Exists(x=> x.ID == request.ID))
         {
             Asociado asociadoACambiar = asociados.Find(x => x.ID == request.ID);
