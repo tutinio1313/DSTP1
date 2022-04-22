@@ -29,6 +29,7 @@
                     <table style="margin-bottom: 3%; width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>DNI</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
@@ -41,6 +42,7 @@
 
                         <tbody id = "asociadoTable">
                             <tr id = "a1">
+                                <td id = "Checkbox"><input type="checkbox"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -50,7 +52,8 @@
                                 <td id = "Domicilio"></td>
                             </tr>
 
-                            <tr id = "a2">
+                            <tr id = "a2">                                
+                                <td id = "Checkbox"><input type="checkbox"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -60,7 +63,8 @@
                                 <td id = "Domicilio"></td>
                             </tr>
 
-                            <tr id = "a3">
+                            <tr id = "a3">                                
+                                <td id = "Checkbox"><input type="checkbox"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -70,7 +74,8 @@
                                 <td id = "Domicilio"></td>
                             </tr>
 
-                            <tr id = "a4">
+                            <tr id = "a4">                                
+                                <td id = "Checkbox"><input type="checkbox"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -81,6 +86,7 @@
                             </tr>
 
                             <tr id = "a5">
+                                <td id = "Checkbox"><input type="checkbox"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -91,6 +97,10 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <div id = "indexTableAsociado">
+                        
+                    </div>
                 </div>
 
                 <div id = "buttons">
@@ -99,7 +109,7 @@
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
 
-                <div id = 'AsociadoAddView' style="display: none; margin-top: -10%;">
+                <div id = 'AsociadoAddView' style="display: none; margin-top: -45%;">
                     <button id ="dismissOverlap" onclick="document.getElementById('AsociadoAddView').style = 'display : none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un Asociado</h3>
                     <hr>
@@ -155,14 +165,14 @@
                             <div style="display: flex; flex-direction:row; ">
                                 <p style="margin-right: 7%; margin-left: 5%;">A</p>
                                 <p style="margin-left: 23%;">B</p>
-                                <p style="margin-left: 23%;">O</p>
+                                <p style="margin-left: 23%;">0</p>
                                 <p style="margin-left: 23%;">AB</p>
                             </div>
 
                             <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row; margin-top:-15%;">
                                 <input type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
                                 <input type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
-                                <input type="checkbox" value="O" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="0" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
                                 <input type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
                             </div>
                             
@@ -195,7 +205,7 @@
                     <h2>Cuotas</h2>
                     <hr>
 
-                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                    <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
                                 <th>N° Cuota</th>
@@ -224,11 +234,17 @@
                     <h3 style="text-align: center;">Usted esta agregando una cuota</h3>
                     <hr>
 
-                    <div id = "column" style="display: grid; place-content: center;">                        
+                    <div id = "column">                        
                         <h4>Seleccione el ID del Asociado:</h4>
+                        <select style="height: 20px;" id = "AsociadoCuotaSelect">
+
+                        </select>
                             
                         <h4>Seleccione el Importe:</h4>
                         <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoID">
+
+                        <h4>Seleccione la fecha de vencimiento:</h4>
+                        <input type="date">
                     </div>
                     <button type="submit" id="Submit" onclick="" style="margin-top: 3%;">Ingresar</button>
                 </div>                
@@ -239,7 +255,7 @@
                     <h2>Donación</h2>
                     <hr>
 
-                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                    <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
                                 <th>N° Donación</th>
@@ -266,6 +282,23 @@
                     <button id ="dismissOverlap" onclick="DonacionAddView.style.display = 'none'">x</button>
                     <h3 style="text-align: center;">Usted esta agregando una donación</h3>
                     <hr>
+                    
+                    <div id="column">
+                        <h4>Seleccione el asociado:</h4>
+                        <select style="height:25px" id="AsociadoDonacionSelect">
+                            
+                        </select>
+                        
+                        <h4>Seleccione el pedido:</h4>
+                        <select style="height:25px" id="PedidoDonacionSelect">
+                            
+                        </select>
+                        <h4>Ingrese la cantidad de sangre donada:</h4>
+                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+
+
+                    </div>
+                    <button id="Submit" type="submit">Ingresar</button>
                 </div>
             </div>
 
@@ -274,7 +307,7 @@
                     <h2>Pedido</h2>
                     <hr>
 
-                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                    <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
                                 <th>N° Pedido</th>
@@ -302,6 +335,21 @@
                     <button id ="dismissOverlap" onclick="document.getElementById('PedidoAddView').style = 'display: none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un pedido</h3>
                     <hr>
+
+                    <div id = "column">
+                        <h4>Seleccione un asociado:</h4>
+
+                        <select id="AsociadoPedidoSelect">
+
+                        </select>
+
+                        <h4>Ingrese la fecha de vencimiento:</h4>
+                        <input id="PedidoFechaVencimiento" type="date">
+
+                        <h4>Ingrese la cantidad de sangre a pedir:</h4>
+                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+                    </div>
+                    <button style="height: 20px;" type="submit" id="Submit">Ingresar</button>
                 </div>
             </div>
 
@@ -310,7 +358,7 @@
                     <h2>Solicitante</h2>
                     <hr>
 
-                    <table style="margin-left: 3%; width: 90%; border: 2.3px solid lightslategray; border-radius: 10px;">
+                    <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
                                 <th>CUIL</th>
@@ -334,6 +382,15 @@
                     <button id ="dismissOverlap" onclick="document.getElementById('SolicitanteAddView').style = 'display: none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un solicitante</h3>
                     <hr>
+
+                    <div id = "column">
+                        <h4>Ingrese el CUIL del solicitante</h4>
+                        <input type="number" min="1000000" max="99999999" step="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="solicitanteID">
+                        
+                        <h4>Ingrese la razón social</h4>
+                        <input type="text" id = "solicitanteNombre">                        
+                    </div>
+                    <button type="submit" id = "Submit">Ingresar</button>
                 </div>
             </div>
         </div>

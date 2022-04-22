@@ -114,6 +114,18 @@ body #view div #AsociadoAddView, #CuotaAddView, #DonacionAddView, #PedidoAddView
     box-shadow: 4px -3.5px 7px #9caab5;
 }
 
+body #indexTableAsociado
+{
+    text-align: center;
+    font-family: Calibri;
+    font-weight: 200;
+}
+
+body #indexTableAsociado a
+{
+    margin: 2%;
+}
+
 tr,td
 {
     font-family: Calibri;
@@ -137,12 +149,20 @@ body #view div #AsociadoAddView #columns #columnA, #columnB
     grid-column: 1;
 }
 
-body #view div div input
+body #view div div #column
+{
+    display: grid;
+    place-content: center;
+    margin: 2% 0 2% 0;
+}
+
+body #view div div input, select
 {
     border: 3px solid gray;
     height: 15px;
     border-radius: 15px;
     text-align: center;
+    background-color: transparent;
 }
 
 body #view div div h4, h3,p
