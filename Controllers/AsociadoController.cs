@@ -108,7 +108,7 @@ public class AsociadoController : ControllerBase
         return partialAsociados;
     }
     
-    private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "O");
+    private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "0");
 
     [HttpGet(Name = "GetAsociado")]
     public async Task<AsociadoGetResponse> Get()
@@ -178,7 +178,7 @@ public class AsociadoController : ControllerBase
        bool existeAsociado = asociados.Exists(x=> x.ID == request.ID); 
        AsociadoDeleteResponse response = new AsociadoDeleteResponse();
 
-       if(!existeAsociado)
+       if(existeAsociado)
        {
            response.ExecutionSuccessful = true;
            response.asociado = asociados.Find(x=> x.ID == request.ID);

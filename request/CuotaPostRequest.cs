@@ -6,7 +6,7 @@ namespace dstp1_request
 {
     public class CuotaPostRequest
     {
-    [Required(ErrorMessage = "El CUIL de la organización o persona es necesario, por favor ingreselo.")]   
+    [Required(ErrorMessage = "El DNI de la persona es necesario, por favor ingreselo.")]   
     [DataType(DataType.Text)]  
     [RegularExpression("^[0-9]+$")]
     public string IDAsociado {get; set;} 

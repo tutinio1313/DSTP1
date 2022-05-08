@@ -27,7 +27,7 @@ public class DonacionController : ControllerBase
     private Donacion CrearDonacion(DonacionPostRequest request)
     {
         Donacion donacion = new Donacion();
-        donacion.ID = request.ID;
+        donacion.ID = Convert.ToString(donaciones.Count+1);
         donacion.IDAsociado = request.IDAsociado;   
         donacion.IDPedido = request.IDPedido;
         donacion.Cantidad = request.Cantidad;

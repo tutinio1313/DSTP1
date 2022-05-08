@@ -40,6 +40,11 @@ public class SolicitanteController : ControllerBase
     {
         string json = System.IO.File.ReadAllText(solicitantesJsonPath);
         solicitantes = JsonConvert.DeserializeObject<List<Solicitante>>(json);
+
+        if(solicitantes == null)
+        {
+            solicitantes = new List<Solicitante>();
+        }
     }
 
     private Solicitante ModificarSolicitante(SolicitantePutRequest request, Solicitante solicitante)
@@ -84,7 +89,16 @@ public class SolicitanteController : ControllerBase
     public async Task<SolicitantePostResponse> Post(SolicitantePostRequest request)
     {
         CargarSolicitantes();
-        bool existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
+        bool existeSolicitante;
+        if(solicitantes.Count != 0){
+            existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
+        }
+
+        else
+        {
+            existeSolicitante = false;
+        }
+       
         SolicitantePostResponse response = new SolicitantePostResponse();
 
         if(!existeSolicitante)        
