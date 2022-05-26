@@ -10,8 +10,7 @@ namespace dstp1.Controllers;
 [Route("[controller]")]
 public class SolicitanteController : ControllerBase
 { 
-    public string solicitantesJsonPath = Directory.GetCurrentDirectory() + "/db/solicitantes.json";
-    public List<Solicitante> solicitantes = new List<Solicitante>();
+    private List<Solicitante> solicitantes;
 
     private readonly ILogger<SolicitanteController> _logger;
 
@@ -24,55 +23,28 @@ public class SolicitanteController : ControllerBase
     {
         Solicitante solicitante = new Solicitante();
         solicitante.ID = request.ID;
-        solicitante.Nombre = request.Nombre;        
-        GuardarSolicitante(solicitante);
+        solicitante.Nombre = request.Nombre;    
+
+        Listas.AddSolicitante(solicitante);    
         return solicitante;
     }
-
-    private void GuardarSolicitante(Solicitante solicitante)
-    {
-        solicitantes.Add(solicitante);
-        string temp = JsonConvert.SerializeObject(solicitantes);        
-        System.IO.File.WriteAllText(solicitantesJsonPath, temp);
-    }
-
-    private void CargarSolicitantes()
-    {
-        string json = System.IO.File.ReadAllText(solicitantesJsonPath);
-        solicitantes = JsonConvert.DeserializeObject<List<Solicitante>>(json);
-
-        if(solicitantes == null)
-        {
-            solicitantes = new List<Solicitante>();
-        }
-    }
-
     private Solicitante ModificarSolicitante(SolicitantePutRequest request, Solicitante solicitante)
     {
         solicitante.Nombre = request.Nombre;
 
         return solicitante;
     }
-    private List<Solicitante> ObtenerSolicitantes(int index)
-    {
-        List<Solicitante> partialSolicitantes = new List<Solicitante>(); 
-        for(;index < index+5; index++)
-        {
-            partialSolicitantes.Add(solicitantes[index]);
-        }
-        return partialSolicitantes;
-    }
-
+    
     [HttpGet(Name = "GetSolicitante")]
 
-    public async Task<SolicitanteGetResponse> Get([FromQuery] string ID)
+    public async Task<SolicitanteGetResponse> Get()
     {
-        CargarSolicitantes();
+        solicitantes = Listas.GetSolicitantes();
         SolicitanteGetResponse response = new SolicitanteGetResponse();
         
         if(solicitantes.Count > 0)
         {
-            response.solicitante = ObtenerSolicitantes(int.Parse(ID));
+            response.solicitante = solicitantes;            
             response.ExecutionSuccessful = true;
         }
         else
@@ -88,17 +60,8 @@ public class SolicitanteController : ControllerBase
 
     public async Task<SolicitantePostResponse> Post(SolicitantePostRequest request)
     {
-        CargarSolicitantes();
-        bool existeSolicitante;
-        if(solicitantes.Count != 0){
-            existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
-        }
-
-        else
-        {
-            existeSolicitante = false;
-        }
-       
+        solicitantes = Listas.GetSolicitantes();
+        bool existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID);
         SolicitantePostResponse response = new SolicitantePostResponse();
 
         if(!existeSolicitante)        
@@ -118,7 +81,7 @@ public class SolicitanteController : ControllerBase
 
    public async Task<SolicitantePutResponse> Put(SolicitantePutRequest request)
    {
-       CargarSolicitantes();
+       solicitantes = Listas.GetSolicitantes();
        bool existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
        SolicitantePutResponse response = new SolicitantePutResponse();
 
@@ -142,7 +105,7 @@ public class SolicitanteController : ControllerBase
 
    public async Task<SolicitanteDeleteResponse> Delete(SolicitanteDeleteRequest request)
    {     
-       CargarSolicitantes();
+       solicitantes = Listas.GetSolicitantes();
        bool existeSolicitante = solicitantes.Exists(x=> x.ID == request.ID); 
        SolicitanteDeleteResponse response = new SolicitanteDeleteResponse();
 
@@ -150,7 +113,7 @@ public class SolicitanteController : ControllerBase
        {
            response.ExecutionSuccessful = true;
            response.solicitante = solicitantes.Find(x=> x.ID == request.ID);
-           solicitantes.Remove(solicitantes.Find(x=> x.ID == request.ID));
+           Listas.RemoveSolicitante(response.solicitante);
        }
        else
        {

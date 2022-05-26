@@ -10,8 +10,7 @@ namespace dstp1.Controllers;
 [Route("[controller]")]
 public class AsociadoController : ControllerBase
 { 
-    public string asociadosJsonPath = Directory.GetCurrentDirectory() + "/db/asociados.json";
-    public List<Asociado> asociados = new List<Asociado>();
+    public List<Asociado> asociados;
 
     private readonly ILogger<AsociadoController> _logger;
 
@@ -37,83 +36,16 @@ public class AsociadoController : ControllerBase
         asociado.GrupoSanguineo = request.GrupoSanguineo;
         asociado.Factor = request.Factor;
 
-        GuardarAsociado(asociado);
+        Listas.AddAsociado(asociado);
         return asociado;
     }
 
-    private void GuardarAsociado(Asociado? asociado)
-    {
-        if(asociado != null)
-        {
-            asociados.Add(asociado);
-            asociados.OrderBy(x=>x.ID);
-        }    
-        string temp = JsonConvert.SerializeObject(asociados);        
-        System.IO.File.WriteAllText(asociadosJsonPath, temp);
-    }
-
-    private void CargarAsociados()
-    {
-        string json = System.IO.File.ReadAllText(asociadosJsonPath);
-        asociados = JsonConvert.DeserializeObject<List<Asociado>>(json);
-        asociados.Sort(delegate(Asociado asociadoA, Asociado asociadoB)
-        {
-            if(asociadoA.ID == null && asociadoB.ID == null) return 0;
-            else if(asociadoA.ID == null) return -1;
-            else if(asociadoB.ID == null) return 1;
-            else return asociadoA.ID.CompareTo(asociadoB.ID);
-        }        
-        );
-
-        if(asociados == null)
-        {
-            asociados = new List<Asociado>();
-        }
-    }
-
-    private Asociado ModificarAsociado(AsociadoPutRequest request, Asociado asociado)
-    {
-        if(request.Domicilio != null)
-        {
-            asociado.Domicilio = request.Domicilio;
-        }
-        if(request.Email != null)
-        {
-            asociado.Email = request.Email;
-        }
-        if(request.Telefono != null)
-        {
-            asociado.Telefono = request.Telefono;
-        }
-        if(request.Localidad != null)
-        {
-            asociado.Localidad = request.Localidad; 
-        }
-        if(request.Domicilio != null)
-        {
-            asociado.Domicilio = request.Domicilio;
-        }
-        asociado.EstaEnfermo = request.EstaEnfermo;
-        asociado.EstaMedicado = request.EstaMedicado;
-        return asociado;
-    }
-
-     private List<Asociado> ObtenerAsociados(int index)
-    {
-        List<Asociado> partialAsociados = new List<Asociado>(); 
-        for(int i = 0;i < index; i++)
-        {
-            partialAsociados.Add(asociados[index]);
-        }
-        return partialAsociados;
-    }
-    
     private bool GrupoSanguineoEsCorrecto(string grupo) => (grupo == "A" || grupo == "B" || grupo == "AB" || grupo == "0");
 
     [HttpGet(Name = "GetAsociado")]
     public async Task<AsociadoGetResponse> Get()
     {
-        CargarAsociados();
+        asociados = Listas.getAsociados();
         AsociadoGetResponse response = new AsociadoGetResponse();        
         response.asociados = asociados;
         return response;
@@ -122,7 +54,7 @@ public class AsociadoController : ControllerBase
     [HttpPost(Name = "PostAsociado")]
     public async Task<AsociadoPostResponse> Post(AsociadoPostRequest request)
     {
-        CargarAsociados();
+        asociados = Listas.getAsociados();
         AsociadoPostResponse response = new AsociadoPostResponse();
         
         bool existeAsociado = asociados.Exists(a => a.ID == request.ID);
@@ -154,13 +86,12 @@ public class AsociadoController : ControllerBase
     public async Task<AsociadoPutResponse> Put(AsociadoPutRequest request)
     {
         AsociadoPutResponse response = new AsociadoPutResponse();
-        CargarAsociados();
+        asociados = Listas.getAsociados();
         
         if(asociados.Exists(x=> x.ID == request.ID))
         {
             Asociado asociadoACambiar = asociados.Find(x => x.ID == request.ID);
-            asociados.Remove(asociadoACambiar);
-            response.asociado = ModificarAsociado(request, asociadoACambiar);
+            response.asociado = Listas.PutAsociado(request, asociadoACambiar);
             response.ExecutionSuccessful = true;
         }
         else
@@ -174,7 +105,7 @@ public class AsociadoController : ControllerBase
     [HttpDelete(Name = "RemoveAsociado")]
        public async Task<AsociadoDeleteResponse> Delete(AsociadoDeleteRequest request)
    {     
-       CargarAsociados();
+       asociados = Listas.getAsociados();
        bool existeAsociado = asociados.Exists(x=> x.ID == request.ID); 
        AsociadoDeleteResponse response = new AsociadoDeleteResponse();
 
@@ -182,8 +113,7 @@ public class AsociadoController : ControllerBase
        {
            response.ExecutionSuccessful = true;
            response.asociado = asociados.Find(x=> x.ID == request.ID);
-           asociados.Remove(asociados.Find(x=> x.ID == request.ID));
-           GuardarAsociado(null);
+           Listas.RemoveAsociado(response.asociado);
        }
        else
        {

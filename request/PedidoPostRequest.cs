@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace dstp1_request
 {
@@ -23,5 +24,7 @@ namespace dstp1_request
         [RegularExpression("^[0-9]+$")]
         public double Cantidad {get; set;}          
 
+        [Required(ErrorMessage ="Los/el asociado es necesario, por favor seleccione alguno.")]
+        public List<string> IDsAsociados {get;set;}
     }    
 }

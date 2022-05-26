@@ -10,11 +10,8 @@ namespace dstp1.Controllers;
 [Route("[controller]")]
 public class PedidoController : ControllerBase
 {
-    public string pedidosJsonPath = Directory.GetCurrentDirectory() + "/db/pedidos.json";
-    
-    public string solicitantesJsonPath = Directory.GetCurrentDirectory() + "/db/solicitantes.json";
-    public List<Pedido> solicitantes = new List<Pedido>();
-    public List<Pedido> pedidos = new List<Pedido>();
+    private List<Solicitante> solicitantes;
+    private List<Pedido> pedidos;
 
     private readonly ILogger<PedidoController> _logger;
 
@@ -22,23 +19,7 @@ public class PedidoController : ControllerBase
     {
         _logger = logger;
     }
-    private void CargarPedidos()
-    {
-        string json = System.IO.File.ReadAllText(pedidosJsonPath);
-        pedidos = JsonConvert.DeserializeObject<List<Pedido>>(json);
-    }
-        private void CargarSolicitantes()
-    {
-        string json = System.IO.File.ReadAllText(solicitantesJsonPath);
-        solicitantes = JsonConvert.DeserializeObject<List<Pedido>>(json);
-    }
-        private void GuardarPedido(Pedido? pedido)
-    {
-        if(pedido != null) pedidos.Add(pedido);   
-        string temp = JsonConvert.SerializeObject(pedidos);        
-        System.IO.File.WriteAllText(pedidosJsonPath, temp);
-    }
-
+   
     private Pedido CrearPedido(PedidoPostRequest request)
     {
         Pedido pedido = new Pedido();
@@ -48,6 +29,8 @@ public class PedidoController : ControllerBase
         pedido.FechaVencimiento = request.FechaVencimiento;
         pedido.CantidadSolicitada = request.Cantidad;
 
+        Listas.AddPedido(pedido);
+
         return pedido;
     }
 
@@ -55,7 +38,7 @@ public class PedidoController : ControllerBase
 
     public async Task<PedidoGetResponse> Get()
     {
-        CargarPedidos();
+        pedidos = Listas.GetPedidos();
         PedidoGetResponse response = new PedidoGetResponse();
         
 
@@ -76,8 +59,8 @@ public class PedidoController : ControllerBase
     [HttpPost(Name = "PostPedido")]
     public async Task<PedidoPostResponse> Post(PedidoPostRequest request)
     {
-        CargarPedidos();
-        CargarSolicitantes();
+        pedidos = Listas.GetPedidos();
+        solicitantes = Listas.GetSolicitantes();
         bool existeSolicitante = solicitantes.Exists(x => x.ID == request.IDSolictante);
         PedidoPostResponse response = new PedidoPostResponse();
 
@@ -99,14 +82,15 @@ public class PedidoController : ControllerBase
 
     public async Task<PedidoDeleteResponse> Delete(PedidoDeleteRequest request)
     {
-        CargarPedidos();
+        pedidos = Listas.GetPedidos();
         bool existePedido = pedidos.Exists(x=> x.ID == request.ID);
         PedidoDeleteResponse response = new PedidoDeleteResponse();
 
         if(existePedido)
         {
             response.ExecutionSuccessful = true;
-            response.pedido = pedidos.Find(x=> x.ID == request.ID); pedidos.Remove(response.pedido);
+            response.pedido = pedidos.Find(x=> x.ID == request.ID); 
+            Listas.RemovePedido(response.pedido);
         }        
         else
         {
