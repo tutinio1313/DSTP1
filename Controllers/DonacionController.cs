@@ -37,6 +37,7 @@ public class DonacionController : ControllerBase
     public async Task<DonacionGetResponse> Get()
     {
         DonacionGetResponse response = new DonacionGetResponse();
+        donaciones = Listas.getDonaciones();
         
         if(donaciones.Count > 0)
         {

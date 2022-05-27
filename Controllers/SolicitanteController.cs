@@ -44,7 +44,7 @@ public class SolicitanteController : ControllerBase
         
         if(solicitantes.Count > 0)
         {
-            response.solicitante = solicitantes;            
+            response.solicitantes = solicitantes;            
             response.ExecutionSuccessful = true;
         }
         else

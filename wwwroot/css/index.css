@@ -105,11 +105,13 @@ body #view div .overlap
 {
     background-color: #ffffff;
     position: absolute;
+    width: fit-content;
     z-index: 3;
     padding: 3%;
     border: 5px solid #ffffff;
     border-radius: 23px;
-    left: 17.5%;    
+    left: 6.5%;    
+    top:  2%;
     outline: 100% rgba(0, 0, 0, 75);
     box-shadow: 4px -3.5px 7px #9caab5;
 }

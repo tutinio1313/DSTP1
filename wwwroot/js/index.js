@@ -32,9 +32,9 @@ async function ShowDiv(view)
     }
 
     ListAsociados = await GetAsociados();
-    //ListCuotas = await GetCuotas();
-    //ListDonaciones = await GetDonaciones();
-    //ListPedidos = await GetPedidos();
+    ListCuotas = await GetCuotas();
+    ListDonaciones = await GetDonaciones();
+    ListPedidos = await GetPedidos();
     ListSolicitantes = await GetSolicitantes();
 
 
@@ -48,19 +48,21 @@ async function ShowDiv(view)
             break;
 
         case "CuotaView":
-            InsertAsociados(ListAsociados, AsociadoCuotaSelect);
+            InsertSelect(ListAsociados, AsociadoCuotaSelect);
             break;
         case "DonacionView":
-            InsertAsociados(ListAsociados, AsociadoDonacionSelect);
-            //InsertPedido(ListPedidos, PedidoCuotaSelect);
-
+            InsertSelect(ListAsociados, AsociadoDonacionSelect);
+            InsertSelect(ListPedidos, PedidoDonacionSelect);
             break;
         case "PedidoView":
-
+            InsertSelect(ListSolicitantes,SolicitantePedidoSelect);
             break;
 
         default:
-
+            if(ListSolicitantes != null)
+            {
+                SetSolicitanteTable(0);
+            }
             break;
     }
 }
@@ -102,16 +104,16 @@ async function SetIndexTableAsociado()
     }
 }
 
-function InsertAsociados(ListAsociados, list)
+function InsertSelect(array, list)
 {
-    if(ListAsociados.length != list.children.length)
+    if(array != null && array.length != list.children.length)
     {
-        for(var index = 0; index < ListAsociados.length; index++)
+        for(var index = 0; index < array.length; index++)
         {
             var option = document.createElement('option');
             option.id = index;
-            option.value = ListAsociados[index].id;
-            option.innerHTML = ListAsociados[index].id;
+            option.value = array[index].id;
+            option.innerHTML = array[index].id;
             list.appendChild(option);
         }
     }
@@ -122,8 +124,7 @@ async function SetAsociadoTable(SubIndex)
     ListAsociados = await GetAsociados();
     if(ListAsociados.length - SubIndex >= 5)
     {
-        var indexTableAsociado = document.getElementById('indexTableAsociado');        
-        cleanAsociadoTable();
+        cleanTable("asociado");
         var innerIndex = 1;
         for(var index = SubIndex; index < SubIndex+5; index++)
         {            
@@ -144,8 +145,7 @@ async function SetAsociadoTable(SubIndex)
     }
     else
     {
-        var indexTableAsociado = document.getElementById('indexTableAsociado');        
-        cleanAsociadoTable();
+        cleanTable("asociado");
         var innerIndex = 1;
         for(var index = SubIndex; index < ListAsociados.length; index++)
         {                        
@@ -165,6 +165,156 @@ async function SetAsociadoTable(SubIndex)
         }
     }
 }
+
+async function SetCuotaTable(SubIndex)
+{
+    ListCuotas = await GetCuotas();
+    if(ListCuotas.length - SubIndex >= 5)
+    {
+        cleanTable("cuota");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < SubIndex+5; index++)
+        {            
+            var tableRow = document.getElementById("c"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListAsociados[index].ID;
+            tableRow[2].innerHTML = ListAsociados[index].IDAsociado;
+            tableRow[3].innerHTML = ListAsociados[index].FechaEmision;
+            tableRow[4].innerHTML = ListAsociados[index].FechaVencimiento;
+            tableRow[5].innerHTML = ListAsociados[index].Importe;
+            tableRow[6].innerHTML = ListAsociados[index].EstaPagado;
+            tableRow[7].innerHTML = ListAsociados[index].FechaPago;
+            innerIndex++;
+        }
+    }
+    else
+    {
+        cleanTable("cuota");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < ListCuotas.length; index++)
+        {                        
+            var tableRow = document.getElementById("c"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListAsociados[index].ID;
+            tableRow[2].innerHTML = ListAsociados[index].IDAsociado;
+            tableRow[3].innerHTML = ListAsociados[index].FechaEmision;
+            tableRow[4].innerHTML = ListAsociados[index].FechaVencimiento;
+            tableRow[5].innerHTML = ListAsociados[index].Importe;
+            tableRow[6].innerHTML = ListAsociados[index].EstaPagado;
+            tableRow[7].innerHTML = ListAsociados[index].FechaPago;
+            innerIndex++;
+        }
+    }
+}
+
+async function SetDonacionTable(SubIndex)
+{
+    ListDonaciones = await GetDonaciones();
+    if(ListDonaciones.length - SubIndex >= 5)
+    {
+        cleanTable("donacion");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < SubIndex+5; index++)
+        {            
+            var tableRow = document.getElementById("d"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListAsociados[index].ID;
+            tableRow[2].innerHTML = ListAsociados[index].IDAsociado;
+            tableRow[3].innerHTML = ListAsociados[index].IDPedido;
+            tableRow[4].innerHTML = ListAsociados[index].Fecha;
+            tableRow[5].innerHTML = ListAsociados[index].Cantidad;
+            innerIndex++;
+        }
+    }
+    else
+    {
+        cleanTable("donacion");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < ListDonaciones.length; index++)
+        {                        
+            var tableRow = document.getElementById("d"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListAsociados[index].ID;
+            tableRow[2].innerHTML = ListAsociados[index].IDAsociado;
+            tableRow[3].innerHTML = ListAsociados[index].IDPedido;
+            tableRow[4].innerHTML = ListAsociados[index].Fecha;
+            tableRow[5].innerHTML = ListAsociados[index].Cantidad;
+            innerIndex++;
+        }
+    }
+}
+
+async function SetPedidoTable(SubIndex)
+{
+    ListPedidos = await GetPedidos();
+    if(ListPedidos.length - SubIndex >= 5)
+    {
+        cleanTable("pedido");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < SubIndex+5; index++)
+        {            
+            var tableRow = document.getElementById("p"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListPedidos[index].ID;
+            tableRow[2].innerHTML = ListPedidos[index].Nombre;
+            tableRow[3].innerHTML = ListPedidos[index].FechaEmitida;
+            tableRow[4].innerHTML = ListPedidos[index].FechaVencimiento;
+            tableRow[5].innerHTML = ListPedidos[index].CantidadSolicitada;
+            tableRow[6].innerHTML = ListPedidos[index].Completado;           
+            innerIndex++;
+        }
+    }
+    else
+    {
+        cleanTable("pedido");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < ListPedidos.length; index++)
+        {                        
+            var tableRow = document.getElementById("s"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListPedidos[index].ID;
+            tableRow[2].innerHTML = ListPedidos[index].Nombre;
+            tableRow[3].innerHTML = ListPedidos[index].FechaEmitida;
+            tableRow[4].innerHTML = ListPedidos[index].FechaVencimiento;
+            tableRow[5].innerHTML = ListPedidos[index].CantidadSolicitada;
+            tableRow[6].innerHTML = ListPedidos[index].Completado;           
+            innerIndex++;
+        }
+    }
+}
+
+async function SetSolicitanteTable(SubIndex)
+{
+    ListSolicitantes = await GetSolicitantes();
+    if(ListSolicitantes.length - SubIndex >= 5)
+    {
+        cleanTable("solicitante");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < SubIndex+5; index++)
+        {            
+            var tableRow = document.getElementById("s"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListSolicitantes[index].id;
+            tableRow[2].innerHTML = ListSolicitantes[index].nombre;
+           
+            innerIndex++;
+        }
+    }
+    else
+    {
+        cleanTable("solicitante");
+        var innerIndex = 1;
+        for(var index = SubIndex; index < ListSolicitantes.length; index++)
+        {                        
+            var tableRow = document.getElementById("s"+innerIndex).children;
+            tableRow[0].disabled = false;
+            tableRow[1].innerHTML = ListSolicitantes[index].id;
+            tableRow[2].innerHTML = ListSolicitantes[index].nombre;
+            innerIndex++;
+        }
+    }
+}
+
 
 async function SetDisplayButtons(prefix,view,chk)
 {
@@ -221,19 +371,77 @@ async function SetDisplayButtons(prefix,view,chk)
     }
 }
 
-function cleanAsociadoTable()
+function cleanTable(view)
 {
-    for(var index = 1; index <= 5; index++)
+
+    switch(view)
     {
-            var tableRow = document.getElementById("a"+index).children;
-            tableRow[0].disabled = true;
-            tableRow[1].innerHTML = "";
-            tableRow[2].innerHTML = "";
-            tableRow[3].innerHTML = "";
-            tableRow[4].innerHTML = "";
-            tableRow[5].innerHTML = "";
-            tableRow[6].innerHTML = "";
-            tableRow[7].innerHTML = "";
+        case "asociado":
+        for(var index = 1; index <= 5; index++)
+        {
+                var tableRow = document.getElementById("a"+index).children;
+                tableRow[0].disabled = true;
+                tableRow[1].innerHTML = "";
+                tableRow[2].innerHTML = "";
+                tableRow[3].innerHTML = "";
+                tableRow[4].innerHTML = "";
+                tableRow[5].innerHTML = "";
+                tableRow[6].innerHTML = "";
+                tableRow[7].innerHTML = "";
+        }
+        break;
+
+        case "cuota":
+            for(var index = 1; index <= 5; index++)
+            {
+                var tableRow = document.getElementById("c"+index).children;
+                tableRow[0].disabled = true;
+                tableRow[1].innerHTML ="";
+                tableRow[2].innerHTML ="";
+                tableRow[3].innerHTML ="";
+                tableRow[4].innerHTML ="";
+                tableRow[5].innerHTML ="";
+                tableRow[6].innerHTML ="";
+                tableRow[7].innerHTML ="";
+            }
+        break;
+
+        case "donacion":
+            for(var index = 1; index <= 5; index++)
+            {
+                var tableRow = document.getElementById("d"+index).children;
+                tableRow[0].disabled = true;
+                tableRow[1].innerHTML = "";
+                tableRow[2].innerHTML = "";
+                tableRow[3].innerHTML = "";
+                tableRow[4].innerHTML = "";
+                tableRow[5].innerHTML = ""; 
+            }
+        break;
+
+        case "pedido":
+            for(var index = 1; index <= 5; index++)
+            {
+                var tableRow = document.getElementById("p"+index).children;
+                tableRow[0].disabled = true;
+                tableRow[1].innerHTML = "";
+                tableRow[2].innerHTML = "";
+                tableRow[3].innerHTML = "";
+                tableRow[4].innerHTML = "";
+                tableRow[5].innerHTML = "";
+                tableRow[6].innerHTML = "";
+            }
+        break;
+        
+        default:
+            for(var index = 1; index <= 5; index++)
+            {
+                var tableRow = document.getElementById("s"+index).children;
+                tableRow[0].disabled = true;
+                tableRow[1].innerHTML =""
+                tableRow[2].innerHTML ="";
+            }
+        break;
     }
 }
 
@@ -250,6 +458,53 @@ async function GetAsociados()
         })
         .then(response => response.json())
         return response.asociados;
+}
+
+async function GetCuotas()
+{
+    const response = await fetch(urlCuota,
+        {
+            method : 'GET',
+            headers:
+            {
+            'accept' : 'application/json',
+            'Content-Type' : 'application/json; charset=utf-8',
+            }
+        })
+        .then(response => response.json())
+        return response.cuotas;
+}
+
+
+async function GetDonaciones()
+{
+    const response = await fetch(urlDonacion,
+        {
+            method : 'GET',
+            headers:
+            {
+            'accept' : 'application/json',
+            'Content-Type' : 'application/json; charset=utf-8',
+            }
+        })
+        .then(response => response.json())
+        return response.donaciones;
+}
+
+
+async function GetPedidos()
+{
+    const response = await fetch(urlPedido,
+        {
+            method : 'GET',
+            headers:
+            {
+            'accept' : 'application/json',
+            'Content-Type' : 'application/json; charset=utf-8',
+            }
+        })
+        .then(response => response.json())
+        return response.pedidos;
 }
 
 async function GetSolicitantes()
@@ -281,15 +536,34 @@ function ShowOverlapView(view,overlapView)
             removeView.style.display = "none";
             break;
         case 'RemoveView':
-            var asociadoSelected = document.getElementById('a'+ SearchAsociado()).children;
             addView.style.display = "none";
             editView.style.display = "none";
             removeView.style.display = "inherit";
 
-            document.getElementById('AsociadoRemoveViewMessage').innerHTML = "¿Esta seguro que desea borrar al asociado " + asociadoSelected.Nombre.innerHTML +" " + asociadoSelected.Apellido.innerHTML+"?";            
+            switch (view) {
+                case 'Asociado':                    
+                    var asociadoSelected = document.getElementById('a'+ SearchAsociado()).children;
+                    document.getElementById('AsociadoRemoveViewMessage').innerHTML = "¿Esta seguro que desea borrar al asociado " + asociadoSelected.Nombre.innerHTML +" " + asociadoSelected.Apellido.innerHTML+"?";                
+                    break;
+                case 'Cuota':
+                    var CuotaSelected = document.getElementById('c'+SearchCuota()).children;                        
+                    document.getElementById('CuotaRemoveViewMessage').innerHTML = "¿Esta seguro que desea borrar la cuota N° " + CuotaSelected.ID.innerHTML+"?"; 
+                    break;
+                case 'Donacion':
+                    var DonacionSelected = document.getElementById('d'+SearchDonacion()).children;                        
+                    document.getElementById('DonacionRemoveViewMessage').innerHTML = "¿Esta seguro que desea borrar la donación N° " + DonacionSelected.ID.innerHTML+"?"; 
+                    break;
+                case 'Pedido':
+                    var pedidoSelected = document.getElementById('c'+SearchPedido()).children;                        
+                    document.getElementById('PedidoRemoveViewMessage').innerHTML = "¿Esta seguro que desea borrar el pedido N° " + pedidoSelected.ID.innerHTML+"?";
+                    break; 
+                default:
+                    var solicitanteSelected = document.getElementById('c'+SearchSolicitante()).children;                        
+                    document.getElementById('SolicitanteRemoveViewMessage').innerHTML = "¿Esta seguro que desea borrar al solicitante " + solicitanteSelected.ID.innerHTML+"?";
+                    break; 
+            }
             break;
         case "EditView":
-            var asociadoSelected = SearchAsociado();
             addView.style.display = "none";
             editView.style.display = "inherit";
             removeView.style.display = "none";
@@ -443,7 +717,7 @@ function SolicitanteCanPost()
 async function PostAsociado()
 {
     const sePuedeCargar = AsociadoCanPost();
-    var htmlState = document.getElementById('AsociadoStateExecution');
+    var htmlState = document.getElementById('AsociadoPostStateExecution');
 
     if(sePuedeCargar)
     {
@@ -487,8 +761,35 @@ async function PostAsociado()
 async function PostCuota()
 {
     var StateExecution = document.getElementById('CuotaStateExecution');
+    const canPost = CuotaCanPost();
+
+    if(canPost)
+    {
+
+    }
 }
 
+async function PostDonacion()
+{
+    var StateExecution = document.getElementById('DonacionStateExecution');
+    const canPost = DonacionCanPost();
+
+    if(canPost)
+    {
+
+    }
+}
+
+async function PostPedido()
+{
+    var StateExecution = document.getElementById('PedidoStateExecution');
+    const canPost = PedidoCanPost();
+
+    if(canPost)
+    {
+        
+    }
+}
 async function PostSolicitante()
 {
     var StateExecution = document.getElementById('SolicitanteStateExecution');
@@ -799,7 +1100,6 @@ function SearchAsociado()
 
 async function RemoveAsociado()
 {
-    const asociados = document.getElementsByClassName('AsociadoCheckbox');
     var asociadoSelected = SearchAsociado();
 
     if(asociadoSelected != null)
@@ -824,5 +1124,117 @@ async function RemoveAsociado()
 
             SetAsociadoTable(0);
             document.getElementById('AsociadoRemoveStateExecution').innerHTML = "El asociado se ha eliminado exitosamente.";
+    }
+}
+
+async function RemoveCuota()
+{
+    var CuotaSelected = SearchCuota();
+    if(CuotaSelected != null)
+    {
+        CuotaSelected =document.getElementById('c'+CuotaSelected).children;
+
+        const cuota = {
+            ID : CuotaSelected.ID.innerHTML
+        }
+
+        response = await fetch(urlCuota,
+            {
+                method : 'DELETE'
+                ,headers : 
+                {
+                    'accept' : 'application/json'
+                    ,'Content-Type' : 'application/json; charset=utf-8',
+                },
+                body : JSON.stringify(cuota)
+            })
+            .then(response => response.JSON())
+
+
+            document.getElementById('CuotaRemoveStateExecution').innerHTML = "La cuota se ha eliminado exitosamente";
+    }
+}
+
+async function RemoveDonacion()
+{
+    var DonacionSelected = SearchDonacion();
+    if(DonacionSelected != null)
+    {
+        DonacionSelected =document.getElementById('d'+DonacionSelected).children;
+
+        const donacion = {
+            ID : DonacionSelected.ID.innerHTML
+        }
+
+        response = await fetch(urlDonacion,
+            {
+                method : 'DELETE'
+                ,headers : 
+                {
+                    'accept' : 'application/json'
+                    ,'Content-Type' : 'application/json; charset=utf-8',
+                },
+                body : JSON.stringify(donacion)
+            })
+            .then(response => response.JSON())
+
+
+            document.getElementById('DonacionRemoveStateExecution').innerHTML = "La donación se ha eliminado exitosamente";
+    }
+}
+
+async function RemovePedido()
+{
+var pedidoSelected = pedidoSelected();
+    if(pedidoSelected != null)
+    {
+        pedidoSelected =document.getElementById('p'+pedidoSelected).children;
+
+        const pedido = {
+            ID : pedidoSelected.ID.innerHTML
+        }
+
+        response = await fetch(urlPedido,
+            {
+                method : 'DELETE'
+                ,headers : 
+                {
+                    'accept' : 'application/json'
+                    ,'Content-Type' : 'application/json; charset=utf-8',
+                },
+                body : JSON.stringify(pedido)
+            })
+            .then(response => response.JSON())
+
+
+            document.getElementById('PedidoRemoveStateExecution').innerHTML = "El pedido se ha eliminado exitosamente";
+    }
+}
+
+async function RemoveSolicitante()
+{
+    var solicitanteSelected = SearchSolicitante();
+    if(solicitanteSelected != null)
+    {
+        solicitanteSelected =document.getElementById('s'+solicitanteSelected).children;
+
+        const solicitante = {
+            ID : solicitanteSelected.ID.innerHTML
+        }
+
+        response = await fetch(urlSolicitante,
+            {
+                method : 'DELETE'
+                ,headers : 
+                {
+                    'accept' : 'application/json'
+                    ,'Content-Type' : 'application/json; charset=utf-8',
+                },
+                body : JSON.stringify(solicitante)
+            })
+            .then(response => response.JSON())
+
+
+            document.getElementById('SolicitanteRemoveStateExecution').innerHTML = "El solicitante se ha eliminado exitosamente";
     }
 }
