@@ -10,10 +10,8 @@ namespace dstp1.Controllers;
 [Route("[controller]")]
 public class CuotaController : ControllerBase
 {
-    public string cuotasJsonPath = Directory.GetCurrentDirectory() + "/db/cuotas.json";
-    public string asociadosJsonPath = Directory.GetCurrentDirectory() + "/db/asociados.json";
-    public List<Asociado> asociados = new List<Asociado>();
-    public List<Cuota> cuotas = new List<Cuota>();
+    public List<Asociado> asociados;
+    public List<Cuota> cuotas;
 
     private readonly ILogger<CuotaController> _logger;
 
@@ -21,42 +19,10 @@ public class CuotaController : ControllerBase
     {
         _logger = logger;
     }
-    private void CargarCuotas()
-    {
-        string json = System.IO.File.ReadAllText(cuotasJsonPath);
-        cuotas = JsonConvert.DeserializeObject<List<Cuota>>(json);
-
-        if(cuotas == null)
-        {
-            cuotas = new List<Cuota>();
-        }
-    }
-    private void CargarAsociados()
-    {
-        string json = System.IO.File.ReadAllText(asociadosJsonPath);
-        asociados = JsonConvert.DeserializeObject<List<Asociado>>(json);
-
-        if(asociados == null)
-        {
-            asociados = new List<Asociado>();
-        }
-    }
-
     private Cuota ModificarCuota(Cuota cuota/*, CuotaPutRequest request*/)
     {
         return cuota;
     }
-
-    private List<Cuota> ObtenerCuotas(int index)
-    {
-        List<Cuota> partialCuotas = new List<Cuota>(); 
-        for(;index < index+5; index++)
-        {
-            partialCuotas.Add(cuotas[index]);
-        }
-        return partialCuotas;
-    }
-
     private Cuota CrearCuota(CuotaPostRequest request)
     {
         Cuota cuota = new Cuota();
@@ -67,18 +33,21 @@ public class CuotaController : ControllerBase
         cuota.FechaVencimiento = request.FechaVencimiento;
         cuota.Importe = request.Importe;
         
+        Listas.AddCuota(cuota);
+        
         return cuota;
     }
 
     [HttpGet(Name ="GetCuota")]
-    public async Task<CuotaGetResponse> Get([FromQuery] string ID)
+
+     public async Task<CuotaGetResponse> Get()
     {
-        CargarCuotas();
+        cuotas = Listas.getCuotas();
         CuotaGetResponse response = new CuotaGetResponse();
         
         if(cuotas.Count > 0)
         {
-            response.cuotas = ObtenerCuotas(int.Parse(ID));
+            response.cuotas = cuotas;
             response.ExecutionSuccessful = true;
         }
 
@@ -89,13 +58,13 @@ public class CuotaController : ControllerBase
         }
         return response;
     }
-
+   
     [HttpPost(Name = "PostCuota")]
 
     public async Task<CuotaPostResponse> Post(CuotaPostRequest request)
     {
-        CargarAsociados();
-        CargarCuotas();
+        asociados = Listas.getAsociados();
+        cuotas = Listas.getCuotas();
         CuotaPostResponse response = new CuotaPostResponse();
         
         bool existeAsociado = asociados.Exists(x => x.ID == request.IDAsociado);
@@ -118,13 +87,15 @@ public class CuotaController : ControllerBase
     [HttpDelete(Name = "DeleteCuota")] 
     public async Task<CuotaDeleteResponse> Delete(CuotaDeleteRequest request)
     {
-        CargarCuotas();
+        cuotas = Listas.getCuotas();
         bool existeCuota = cuotas.Exists(x => x.ID == request.ID);
         CuotaDeleteResponse response = new CuotaDeleteResponse();
         if(existeCuota)
         {
             response.ExecutionSuccessful = true;
-            response.cuota = cuotas.Find(x=> x.ID == request.ID); cuotas.Remove(response.cuota);
+            response.cuota = cuotas.Find(x=> x.ID == request.ID); 
+            Listas.RemoveCuota(response.cuota);
+
         }
         else
         {
@@ -132,6 +103,5 @@ public class CuotaController : ControllerBase
             response.ErrorMessage = "La cuota no se ha encontrado por favor revise los datos ingresados.";
         }
         return response;
-    }
- 
+    } 
 }

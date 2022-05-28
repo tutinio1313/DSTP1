@@ -6,10 +6,6 @@ namespace dstp1_request
 {
     public class DonacionPostRequest
     {
-        [Required(ErrorMessage = "El numero de donación es necesario, por favor ingreselo.")]   
-        [DataType(DataType.Text)]  
-        [RegularExpression("^[0-9]+$")]
-        public string ID {get; set;}  
         [Required(ErrorMessage = "El dni del asociado es necesario, por favor ingreselo.")]   
         [DataType(DataType.Text)]  
         [RegularExpression("^[0-9]+$")]

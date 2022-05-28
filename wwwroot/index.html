@@ -19,7 +19,7 @@
         
         <div id = "view">
             <div id = "defaultView">
-                <!-- TODO / Iteración 2 y 3. -->
+                <!-- TODO / Iteración 3. -->
             </div>
             <div id = "AsociadoView" style="display: none;">
                 <div id = "MainBody">
@@ -42,7 +42,7 @@
 
                         <tbody id = "asociadoTable">
                             <tr id = "a1">
-                                <td id = "Checkbox"><input type="checkbox"></td>
+                                <td id = "Checkbox"><input id="a1chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('a','Asociado','a1chk')"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -53,7 +53,7 @@
                             </tr>
 
                             <tr id = "a2">                                
-                                <td id = "Checkbox"><input type="checkbox"></td>
+                                <td id = "Checkbox"><input id="a2chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('a','Asociado','a2chk')"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -64,7 +64,7 @@
                             </tr>
 
                             <tr id = "a3">                                
-                                <td id = "Checkbox"><input type="checkbox"></td>
+                                <td id = "Checkbox"><input id="a3chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('a','Asociado','a3chk')"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -75,7 +75,7 @@
                             </tr>
 
                             <tr id = "a4">                                
-                                <td id = "Checkbox"><input type="checkbox"></td>
+                                <td id = "Checkbox"><input id="a4chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('a','Asociado','a4chk')"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -86,7 +86,7 @@
                             </tr>
 
                             <tr id = "a5">
-                                <td id = "Checkbox"><input type="checkbox"></td>
+                                <td id = "Checkbox"><input id="a5chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('a','Asociado','a5chk')"></td>
                                 <td id = "ID"></td>
                                 <td id = "Nombre"></td>
                                 <td id = "Apellido"></td>
@@ -104,12 +104,12 @@
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add" onclick="AsociadoAddView.style.display = 'inherit'">Agregar</button>
-                    <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
-                    <button id = "Remove" style="color: brown;">Borrar</button>  
+                    <button id = "addAsociado" onclick="ShowOverlapView('Asociado', 'AddView')">Agregar</button>
+                    <button id = "editAsociado" onclick="ShowOverlapView('Asociado', 'EditView')" style="margin-left: 12%; margin-right: 12%;" disabled="true">Editar</button>
+                    <button id = "removeAsociado" disabled="true" onclick="ShowOverlapView('Asociado', 'RemoveView')">Borrar</button>  
                 </div>
 
-                <div id = 'AsociadoAddView' style="display: none; margin-top: -45%;">
+                <div id = 'AsociadoAddView' class="overlap" style="display: none;">
                     <button id ="dismissOverlap" onclick="document.getElementById('AsociadoAddView').style = 'display : none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un Asociado</h3>
                     <hr>
@@ -125,24 +125,19 @@
                             <input id = "asociadoEmail" onchange="AsociadoCanPost()" type="email">
                             
                             <h4>¿El asociado posee una enfermedad crónica?</h4>
-                            <div style="display: flex; flex-direction:row; ">
-                                <p style="margin-right: 19%; margin-left: 3%;">Si</p>
-                                <p>No</p>
-                            </div>
 
                             <div style="display: flex; flex-direction:row;">
+                                <label for="asociadoEstaEnfermo">SI</label>
                                 <input type="checkbox" onchange="AsociadoCanPost()" id="asociadoEstaEnfermo" style="margin-right: 15%;" onclick="SetEstaEnfermo('asociadoEstaEnfermo')"/>
+                                <label for="asociadoNoEstaEnfermo">NO</label>
                                 <input type="checkbox" onchange="AsociadoCanPost()" checked id="asociadoNoEstaEnfermo" onclick="SetEstaEnfermo('asociadoNoEstaEnfermo')"/>
                             </div>                        
                             <h4>¿El asociado toma medicamentos recetados?</h4>
 
-                            <div style="display: flex; flex-direction:row; ">
-                                <p style="margin-right: 19%; margin-left: 3%;">Si</p>
-                                <p>No</p>
-                            </div>
-
                             <div style="display: flex; flex-direction:row;">
+                                <label for="asociadoEstaMedicado">SI</label>
                                 <input type="checkbox" id = "asociadoEstaMedicado" onchange="AsociadoCanPost()" alt="SI" style="margin-right: 15%;" onclick="SetAsociadoMedicado('asociadoEstaMedicado')"/>
+                                <label for="asociadoNoEstaMedicado">NO</label>
                                 <input type="checkbox" id = "asociadoNoEstaMedicado" onchange="AsociadoCanPost()" checked alt="NO" onclick="SetAsociadoMedicado('asociadoNoEstaMedicado')"/>                        
                             </div>
 
@@ -162,29 +157,23 @@
 
                             <h4>Ingrese el grupo sanguineo</h4>
                             
-                            <div style="display: flex; flex-direction:row; ">
-                                <p style="margin-right: 7%; margin-left: 5%;">A</p>
-                                <p style="margin-left: 23%;">B</p>
-                                <p style="margin-left: 23%;">0</p>
-                                <p style="margin-left: 23%;">AB</p>
-                            </div>
-
                             <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row; margin-top:-15%;">
-                                <input type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
-                                <input type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
-                                <input type="checkbox" value="0" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
-                                <input type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
+                                <label for="asociadoGrupoSanguineoA" class="AsociadoLabel">A</label>
+                                <input type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <label for="asociadoGrupoSanguineoB" class="AsociadoLabel">B</label>
+                                <input type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <label for="asociadoGrupoSanguineoO" class="AsociadoLabel">0</label>
+                                <input type="checkbox" value="0" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <label for="asociadoGrupoSanguineoAB" class="AsociadoLabel">AB</label>
+                                <input type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
                             </div>
                             
                             <h4>Ingrese el factor de Sangre</h4>
 
-                            <div style="display: flex; flex-direction:row; ">
-                                <p style="margin-right: 23%; margin-left: 3%;">+</p>
-                                <p>-</p>
-                            </div>
-
                             <div style="display: flex; flex-direction:row; margin-top: -15%;">
+                                <label for="asociadoFactorPositivo">+</label>
                                 <input type="checkbox" onchange="AsociadoCanPost()" id = "asociadoFactorPositivo" value="+" style="margin-right: 15%;" onclick="SetAsociadoFactor('asociadoFactorPositivo')"/>
+                                <label for="asociadoFactorNegativo">-</label>
                                 <input type="checkbox" onchange="AsociadoCanPost()" id = "asociadoFactorNegativo" value="-" onclick="SetAsociadoFactor('asociadoFactorNegativo')"/>                        
                             </div>
 
@@ -196,7 +185,104 @@
                     </div>                    
                     <hr>
                     <button type="submit" id = "Submit" onclick="PostAsociado()">Ingresar</button>
-                    <h4 id="StateExecution" style="text-align: center; display: none;"></h4>
+                    <h4 id="AsociadoPostStateExecution" style="text-align: center; display: none;"></h4>
+                </div>
+
+                <div id = 'AsociadoEditView' class="overlap" style="display: none;">
+                    <button id ="dismissOverlap" onclick="document.getElementById('AsociadoEditView').style = 'display : none;';">x</button>
+                    <h3 style="text-align: center;">Usted esta editando un Asociado</h3>
+                    <hr>
+                    <div id = "columns">
+                        <div id = "columnA" style="width: 50%; margin-right: 2%;">
+                            <h4>Nombre</h4>
+                            <input disabled id = "asociadoName" onchange="AsociadoCanPost()" type="text" disabled onchange="AsociadoCanPost()">
+                            
+                            <h4>Apellido</h4>
+                            <input disabled id = "asociadoLastName" onchange="AsociadoCanPost()" disabled type="text">
+
+                            <h4>Ingrese el correo Electronico</h4>
+                            <input id = "asociadoEmail" onchange="AsociadoCanPost()" type="email">
+                            
+                            <h4>¿El asociado posee una enfermedad crónica?</h4>
+                            
+                            <div style="display: flex; flex-direction:row;">
+                                <label for="asociadoEstaEnfermo">SI</label>
+                                <input type="checkbox" onchange="AsociadoCanPost()" id="asociadoEstaEnfermo" style="margin-right: 15%;" onclick="SetEstaEnfermo('asociadoEstaEnfermo')"/>
+                                <label for="asociadoNoEstaEnfermo">NO</label>
+                                <input type="checkbox" onchange="AsociadoCanPost()" checked id="asociadoNoEstaEnfermo" onclick="SetEstaEnfermo('asociadoNoEstaEnfermo')"/>
+                            </div>                        
+                            <h4>¿El asociado toma medicamentos recetados?</h4>
+
+                            <div style="display: flex; flex-direction:row;">
+                                <label for="asociadoEstaMedicado">SI</label>
+                                <input type="checkbox" id = "asociadoEstaMedicado" onchange="AsociadoCanPost()" alt="SI" style="margin-right: 15%;" onclick="SetAsociadoMedicado('asociadoEstaMedicado')"/>
+                                <label for="asociadoNoEstaMedicado">NO</label>
+                                <input type="checkbox" id = "asociadoNoEstaMedicado" onchange="AsociadoCanPost()" checked alt="NO" onclick="SetAsociadoMedicado('asociadoNoEstaMedicado')"/>                        
+                            </div>
+
+                            <h4>Ingrese la fecha de nacimiento:</h4>
+                            <input id = "asociadoFechaNacimiento" onchange="AsociadoCanPost()" type="date">
+                        </div>
+                        
+                        <div id = "columnB" style="grid-column: 2; margin-left: 2%; margin-right: 3.5%;">
+                            <h4>Ingrese el DNI del asociado.</h4>
+                            <input disabled type="number" min="1000000" max="99999999" step="1" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoID">
+
+                            <h4>Ingrese la localidad</h4>
+                            <input type="text" onchange="AsociadoCanPost()" id ="asociadoLocalidad">
+
+                            <h4>Ingrese el domicilio</h4>
+                            <input type="text" onchange="AsociadoCanPost()" id = "asociadoDomicilio">
+
+                            <h4>Ingrese el grupo sanguineo</h4>
+                            
+                            <!-- <div style="display: flex; flex-direction:row; ">
+                                <p style="margin-right: 7%; margin-left: 5%;">A</p>
+                                <p style="margin-left: 23%;">B</p>
+                                <p style="margin-left: 23%;">0</p>
+                                <p style="margin-left: 23%;">AB</p>
+                            </div> -->
+
+                            <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row; margin-top:-15%;">
+                                <label for="asociadoGrupoSanguineoA" class="AsociadoLabel">A</label>
+                                <input disabled type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <label for="asociadoGrupoSanguineoB" class="AsociadoLabel">B</label>
+                                <input disabled type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <label for="asociadoGrupoSanguineoO" class="AsociadoLabel">0</label>
+                                <input disabled type="checkbox" value="0" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <label for="asociadoGrupoSanguineoAB" class="AsociadoLabel">AB</label>
+                                <input disabled type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
+                            </div>
+                            
+                            <h4>Ingrese el factor de Sangre</h4>
+
+                            <div style="display: flex; flex-direction:row; margin-top: -15%;">
+                                <label for="asociadoFactorPositivo">+</label>
+                                <input disabled type="checkbox" onchange="AsociadoCanPost()" id = "asociadoFactorPositivo" value="+" style="margin-right: 15%;" onclick="SetAsociadoFactor('asociadoFactorPositivo')"/>
+                                <label for="asociadoFactorNegativo">-</label>
+                                <input disabled type="checkbox" onchange="AsociadoCanPost()" id = "asociadoFactorNegativo" value="-" onclick="SetAsociadoFactor('asociadoFactorNegativo')"/>                        
+                            </div>
+
+                            <h4>Ingrese el número de telefono</h4>
+                            <input type="number" onchange="AsociadoCanPost()" min="0" step="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoTelefono">
+
+                            
+                        </div>
+                    </div>                    
+                    <hr>
+                    <button type="submit" id = "Submit" onclick="PostAsociado()">Ingresar</button>
+                    <h4 id="AsociadoPutStateExecution" style="text-align: center; display: none;"></h4>
+                </div>
+
+                <div id="AsociadoRemoveView" class="overlap" style="display: none;">
+                    <button id ="dismissOverlap" onclick="document.getElementById('AsociadoRemoveView').style = 'display : none;';">x</button>
+                    <h4 id="AsociadoRemoveViewMessage">¿Deseas borrar a x?</h4>
+                    
+                    <div>
+                        <button id="Remove" onclick="RemoveAsociado()">Si</button>
+                        <button onclick="document.getElementById('AsociadoRemoveView').style = 'display : none;';">No</button>
+                    </div>
+                    <h4 id = "AsociadoRemoveStateExecution"></h4>
                 </div>
             </div>
 
@@ -208,6 +294,7 @@
                     <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>N° Cuota</th>
                                 <th>DNI asociado</th>
                                 <th>Fecha Emitida</th>
@@ -218,18 +305,62 @@
                         </thead>
 
                         <tbody id = "donacionTable">
-
+                            <tr id="c1">
+                                <td id = "Checkbox"><input id="c1chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('c','Cuota','c1chk')"></td>
+                                <td id="IDCuota"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="FechaEmision"></td>
+                                <td id="FechaVencimiento"></td>
+                                <td id="Importe"></td>
+                                <td id="Pagado"></td>
+                            </tr>
+                            <tr id="c2">
+                                <td id = "Checkbox"><input id="c2chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('c','Cuota','c2chk')"></td>
+                                <td id="IDCuota"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="FechaEmision"></td>
+                                <td id="FechaVencimiento"></td>
+                                <td id="Importe"></td>
+                                <td id="Pagado"></td>
+                            </tr>
+                            <tr id="c3">
+                                <td id = "Checkbox"><input id="c3chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('c','Cuota','c3chk')"></td>
+                                <td id="IDCuota"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="FechaEmision"></td>
+                                <td id="FechaVencimiento"></td>
+                                <td id="Importe"></td>
+                                <td id="Pagado"></td>
+                            </tr>
+                            <tr id="c4">
+                                <td id = "Checkbox"><input id="c4chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('c','Cuota','c4chk')"></td>
+                                <td id="IDCuota"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="FechaEmision"></td>
+                                <td id="FechaVencimiento"></td>
+                                <td id="Importe"></td>
+                                <td id="Pagado"></td>
+                            </tr>
+                            <tr id="c5">
+                                <td id = "Checkbox"><input id="c5chk" class="AsociadoCheckbox" type="checkbox" onclick="SetDisplayButtons('c','Cuota','c5chk')"></td>
+                                <td id="IDCuota"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="FechaEmision"></td>
+                                <td id="FechaVencimiento"></td>
+                                <td id="Importe"></td>
+                                <td id="Pagado"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add" onclick="CuotaAddView.style.display = 'inherit'">Agregar</button>
-                    <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
-                    <button id = "Remove" style="color: brown;">Borrar</button>
+                    <button id = "add" onclick="ShowOverlapView('Cuota', 'AddView')">Agregar</button>
+                    <button id = "editCuota" onclick="ShowOverlapView('Cuota', 'EditView')" style="margin-left: 12%; margin-right: 12%;">Editar</button>
+                    <button id = "RemoveCuota" style="color: brown;">Borrar</button>
                 </div>
 
-                <div id = 'CuotaAddView' style="display: none; margin-top: -10%; margin-left: 10%;">
+                <div id = 'CuotaAddView' class="overlap" style="display: none;">
                     <button id ="dismissOverlap" onclick="document.getElementById('CuotaAddView').style = 'display: none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando una cuota</h3>
                     <hr>
@@ -241,13 +372,17 @@
                         </select>
                             
                         <h4>Seleccione el Importe:</h4>
-                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="asociadoID">
+                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="CuotaImporte">
 
                         <h4>Seleccione la fecha de vencimiento:</h4>
-                        <input type="date">
+                        <input type="date" id = "cuotaFechaVencimiento">
                     </div>
                     <button type="submit" id="Submit" onclick="" style="margin-top: 3%;">Ingresar</button>
+                    <h4></h4>
                 </div>                
+                <div id = 'CuotaEditView' class="overlap" style="display: none;">
+                </div>
+                <div id = 'CuotaRemoveView' class="overlap" style="display: none;"></div>
             </div>
             
             <div id = "DonacionView" style="display: none;">
@@ -258,16 +393,62 @@
                     <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>N° Donación</th>
                                 <th>DNI asociado</th>
                                 <th>N° Pedido</th>
                                 <th>Fecha</th>   
                                 <th>Cantidad</th>
+                                <th>Tipo de Sangre</th>
                             </tr>
                         </thead>
 
                         <tbody id = "donacionTable">
-
+                            <tr id="d1">
+                                <td id = "Checkbox"><input id="d1chk" class="DonacionCheckbox" type="checkbox" onclick="SetDisplayButtons('d','Donacion','d1chk')"></td>
+                                <td id="IDDonacion"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="IDPedido"></td>
+                                <td id="FechaEmitida"></td>
+                                <td id="Cantidad"></td>
+                                <td id="TipoSangre"></td>
+                            </tr>
+                            <tr id="d2">
+                                <td id = "Checkbox"><input id="d1chk" class="DonacionCheckbox" type="checkbox" onclick="SetDisplayButtons('d','Donacion','d1chk')"></td>
+                                <td id="IDDonacion"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="IDPedido"></td>
+                                <td id="FechaEmitida"></td>
+                                <td id="Cantidad"></td>
+                                <td id="TipoSangre"></td>
+                            </tr>
+                            <tr id="d3">
+                                <td id = "Checkbox"><input id="d1chk" class="DonacionCheckbox" type="checkbox" onclick="SetDisplayButtons('d','Donacion','d1chk')"></td>
+                                <td id="IDDonacion"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="IDPedido"></td>
+                                <td id="FechaEmitida"></td>
+                                <td id="Cantidad"></td>
+                                <td id="TipoSangre"></td>
+                            </tr>
+                            <tr id="d4">
+                                <td id = "Checkbox"><input id="d1chk" class="DonacionCheckbox" type="checkbox" onclick="SetDisplayButtons('d','Donacion','d1chk')"></td>
+                                <td id="IDDonacion"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="IDPedido"></td>
+                                <td id="FechaEmitida"></td>
+                                <td id="Cantidad"></td>
+                                <td id="TipoSangre"></td>
+                            </tr>
+                            <tr id="d5">
+                                <td id = "Checkbox"><input id="d1chk" class="DonacionCheckbox" type="checkbox" onclick="SetDisplayButtons('d','Donacion','d1chk')"></td>
+                                <td id="IDDonacion"></td>
+                                <td id="IDAsociado"></td>
+                                <td id="IDPedido"></td>
+                                <td id="FechaEmitida"></td>
+                                <td id="Cantidad"></td>
+                                <td id="TipoSangre"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -278,7 +459,7 @@
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
 
-                <div id = "DonacionAddView" style="display: none; margin-top : -10%; margin-left: 10%;">
+                <div id = "DonacionAddView" class="overlap" style="display: none; ">
                     <button id ="dismissOverlap" onclick="DonacionAddView.style.display = 'none'">x</button>
                     <h3 style="text-align: center;">Usted esta agregando una donación</h3>
                     <hr>
@@ -294,12 +475,19 @@
                             
                         </select>
                         <h4>Ingrese la cantidad de sangre donada:</h4>
-                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="DonacionCantidad">
 
 
                     </div>
                     <button id="Submit" type="submit">Ingresar</button>
                 </div>
+
+                <div id = "DonacionEditView" class="overlap" style="display: none; ">
+                </div>
+
+                <div id = "DonacionRemoveView" class="overlap" style="display: none; ">
+                </div>
+
             </div>
 
             <div id = "PedidoView" style="display: none;">
@@ -310,46 +498,120 @@
                     <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>N° Pedido</th>
                                 <th>Cuil solicitante</th>
                                 <th>Fecha Emitida</th>
                                 <th>Fecha Vencimiento</th>   
                                 <th>Cantidad solicitada</th>
+                                <th>Tipo de Sangre</th>
                                 <th>¿completado?</th>
                             </tr>
                         </thead>
 
                         <tbody id = "pedidoTable">
+                            <tr id="p1">
+                               <td id = "Checkbox"><input id="p1chk" class="PedidoCheckbox" type="checkbox" onclick="SetDisplayButtons('p','Pedido','p1chk')"></td>
+                               <td id="IDPedido"></td>
+                               <td id="IDSolicitante"></td>
+                               <td id="FechaEmision"></td>
+                               <td id="FechaVencimiento"></td>
+                               <td id="Cantidad"></td>
+                               <td id="Sangre"></td>
+                               <td id="Completado"></td>
+                            </tr>
+                            <tr id="p2">
+                               <td id = "Checkbox"><input id="p2chk" class="PedidoCheckbox" type="checkbox" onclick="SetDisplayButtons('p','Pedido','p2chk')"></td>
+                               <td id="IDPedido"></td>
+                               <td id="IDSolicitante"></td>
+                               <td id="FechaEmision"></td>
+                               <td id="FechaVencimiento"></td>
+                               <td id="Cantidad"></td>
+                               <td id="Sangre"></td>
+                               <td id="Completado"></td>
+                            </tr>
+                            <tr id="p3">
+                               <td id = "Checkbox"><input id="p3chk" class="PedidoCheckbox" type="checkbox" onclick="SetDisplayButtons('p','Pedido','p3chk')"></td>
+                               <td id="IDPedido"></td>
+                               <td id="IDSolicitante"></td>
+                               <td id="FechaEmision"></td>
+                               <td id="FechaVencimiento"></td>
+                               <td id="Cantidad"></td>
+                               <td id="Sangre"></td>
+                               <td id="Completado"></td>
+                            </tr>
+                            <tr id="p4">
+                               <td id = "Checkbox"><input id="p4chk" class="PedidoCheckbox" type="checkbox" onclick="SetDisplayButtons('p','Pedido','p4chk')"></td>
+                               <td id="IDPedido"></td>
+                               <td id="IDSolicitante"></td>
+                               <td id="FechaEmision"></td>
+                               <td id="FechaVencimiento"></td>
+                               <td id="Cantidad"></td>
+                               <td id="Sangre"></td>
+                               <td id="Completado"></td>
+                            </tr>
+                            <tr id="p5">
+                               <td id = "Checkbox"><input id="p5chk" class="PedidoCheckbox" type="checkbox" onclick="SetDisplayButtons('p','Pedido','p5chk')"></td>
+                               <td id="IDPedido"></td>
+                               <td id="IDSolicitante"></td>
+                               <td id="FechaEmision"></td>
+                               <td id="FechaVencimiento"></td>
+                               <td id="Cantidad"></td>
+                               <td id="Sangre"></td>
+                               <td id="Completado"></td>
+                            </tr>
 
                         </tbody>
                     </table>
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add" onclick="PedidoAddView.style.display = 'inherit'">Agregar</button>
+                    <button id = "add" onclick="PedidoAddView.style.display = 'inherit';">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
 
-                <div id = "PedidoAddView" style="display: none; margin-top : -10%; margin-left: 10%;">
+                <div id = "PedidoAddView" class="overlap" style="display: none;">
                     <button id ="dismissOverlap" onclick="document.getElementById('PedidoAddView').style = 'display: none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un pedido</h3>
                     <hr>
 
                     <div id = "column">
-                        <h4>Seleccione un asociado:</h4>
+                        <h4>Seleccione un solicitante:</h4>
 
-                        <select id="AsociadoPedidoSelect">
+                        <select style="height:30px" id="SolicitantePedidoSelect">
 
                         </select>
 
                         <h4>Ingrese la fecha de vencimiento:</h4>
                         <input id="PedidoFechaVencimiento" type="date">
 
-                        <h4>Ingrese la cantidad de sangre a pedir:</h4>
-                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+                        <h4>Ingrese la cantidad de sangre a pedir (ml):</h4>
+                        <input type="number" min="0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+
+                        <h4>Seleccione el grupo sanguineo:</h4>
+                        <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row;">
+                            <label for="pedidoGrupoSanguineoA" class="AsociadoLabel">A</label>
+                            <input type="checkbox" value="A" id = "pedidoGrupoSanguineoA" class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoA', 'pedido')" style="margin-right: 15%;"/>
+                            <label for="pedidoGrupoSanguineoB" class="AsociadoLabel">B</label>
+                            <input type="checkbox" value="B" id = "pedidoGrupoSanguineoB"  class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoB', 'pedido')"style="margin-right: 15%;"/>
+                            <label for="pedidoGrupoSanguineoO" class="AsociadoLabel">0</label>
+                            <input type="checkbox" value="0" id = "pedidoGrupoSanguineoO"  class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoO', 'pedido')"style="margin-right: 15%;"/>
+                            <label for="pedidoGrupoSanguineoAB" class="AsociadoLabel">AB</label>
+                            <input type="checkbox" value="AB" id = "pedidoGrupoSanguineoAB"  class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoAB', 'pedido')" style="margin-right: 15%;"/>                        
+                        </div>
+                        <h4>Seleccione el factor:</h4>
+                        
+                        <div style="display: flex; flex-direction:row;">
+                            <label for="pedidoFactorPositivo">+</label>
+                            <input type="checkbox" id = "pedidoFactorPositivo" value="+" style="margin-right: 15%;" onclick="SetPedidoFactor('pedidoFactorPositivo')" />
+                            <label for="pedidoFactorNegativo">-</label>
+                            <input type="checkbox" id = "pedidoFactorNegativo" value="-"  onclick="SetPedidoFactor('pedidoFactorNegativo')" />                        
+                        </div>
+
                     </div>
-                    <button style="height: 20px;" type="submit" id="Submit">Ingresar</button>
+                    <button style="height: 20px;" type="submit" id="Submit" onclick="PostPedido();">Ingresar</button>
+                    <h4 id="PedidoAddStateExecution"></h4>
                 </div>
             </div>
 
@@ -361,13 +623,38 @@
                     <table style="width: 100%; border: 2.3px solid lightslategray; border-radius: 10px;">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>CUIL</th>
                                 <th>Razón Social</th>
                             </tr>
                         </thead>
 
                         <tbody id = "solicitanteTable">
-
+                            <tr id="s1">
+                                <td><input type="checkbox" name="solicitante" id="chks1"></td>
+                                <td id="ID"></td>
+                                <td id="Name"></td>
+                            </tr>
+                            <tr id="s2">
+                                <td><input type="checkbox" name="solicitante" id="chks2"></td>
+                                <td id="ID"></td>
+                                <td id="Name"></td>
+                            </tr>
+                            <tr id="s3">
+                                <td><input type="checkbox" name="solicitante" id="chks3"></td>
+                                <td id="ID"></td>
+                                <td id="Name"></td>
+                            </tr>
+                            <tr id="s4">
+                                <td><input type="checkbox" name="solicitante" id="chks4"></td>
+                                <td id="ID"></td>
+                                <td id="Name"></td>
+                            </tr>
+                            <tr id="s5">
+                                <td><input type="checkbox" name="solicitante" id="chks5"></td>
+                                <td id="ID"></td>
+                                <td id="Name"></td>
+                            </tr>
                         </tbody>
                     </table>                    
                 </div>
@@ -378,7 +665,7 @@
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
 
-                <div id = "SolicitanteAddView" style="display: none; margin-top : -10%; margin-left: 10%;">
+                <div id = "SolicitanteAddView" class="overlap" style="display: none; margin-top : -10%; margin-left: 10%;">
                     <button id ="dismissOverlap" onclick="document.getElementById('SolicitanteAddView').style = 'display: none;';">x</button>
                     <h3 style="text-align: center;">Usted esta agregando un solicitante</h3>
                     <hr>
@@ -390,7 +677,8 @@
                         <h4>Ingrese la razón social</h4>
                         <input type="text" id = "solicitanteNombre">                        
                     </div>
-                    <button type="submit" id = "Submit">Ingresar</button>
+                    <button type="submit" id = "Submit" onclick="PostSolicitante()">Ingresar</button>
+                    <h4 id="SolicitanteStateExecution" style="text-align: center; display: none;"></h4>                    
                 </div>
             </div>
         </div>

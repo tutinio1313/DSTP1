@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace dstp1
 {
@@ -13,5 +14,8 @@ namespace dstp1
         public DateTime FechaVencimiento {get; set;}
         public bool Completado {get; set;}
         public double CantidadSolicitada {get; set;}
+        public string GrupoSanguineo {get; set;}
+        public string Factor {get; set;}
+        public List<string> IDsAsociados {get; set;}
     }
 }

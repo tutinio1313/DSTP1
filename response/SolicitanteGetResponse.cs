@@ -6,6 +6,6 @@ namespace dstp1_response
 {
     public class SolicitanteGetResponse: Response
     {
-        public List<Solicitante>? solicitante {get; set;}
+        public List<Solicitante>? solicitantes {get; set;}
     }
 }
