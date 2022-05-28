@@ -22,12 +22,17 @@ public class PedidoController : ControllerBase
    
     private Pedido CrearPedido(PedidoPostRequest request)
     {
+        pedidos = Listas.GetPedidos();
+
         Pedido pedido = new Pedido();
-        pedido.ID = Convert.ToString(pedidos.Count);
-        pedido.IDSolicitante = request.IDSolictante;
+        pedido.ID = Convert.ToString(pedidos.Count + 1);
+        pedido.IDSolicitante = request.IDSolicitante;
         pedido.FechaEmision = request.FechaEmision;
         pedido.FechaVencimiento = request.FechaVencimiento;
         pedido.CantidadSolicitada = request.Cantidad;
+        pedido.GrupoSanguineo = request.GrupoSanguineo;
+        pedido.Factor = request.Factor;
+        //pedido.IDsAsociados = request.IDsAsociados;
 
         Listas.AddPedido(pedido);
 
@@ -61,7 +66,7 @@ public class PedidoController : ControllerBase
     {
         pedidos = Listas.GetPedidos();
         solicitantes = Listas.GetSolicitantes();
-        bool existeSolicitante = solicitantes.Exists(x => x.ID == request.IDSolictante);
+        bool existeSolicitante = solicitantes.Exists(x => x.ID == request.IDSolicitante);
         PedidoPostResponse response = new PedidoPostResponse();
 
         if(existeSolicitante)

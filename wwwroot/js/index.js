@@ -56,6 +56,15 @@ async function ShowDiv(view)
             break;
         case "PedidoView":
             InsertSelect(ListSolicitantes,SolicitantePedidoSelect);
+            var now = new Date();
+            const month = now.getMonth()+1;
+            const date = now.getFullYear() + "-0"+month +"-" +now.getDate();
+            document.getElementById('PedidoFechaVencimiento').setAttribute('min', date);
+
+            if(ListPedidos != null)
+            {
+                SetPedidoTable(0);
+            }
             break;
 
         default:
@@ -253,14 +262,24 @@ async function SetPedidoTable(SubIndex)
         var innerIndex = 1;
         for(var index = SubIndex; index < SubIndex+5; index++)
         {            
+            var fechaEmision = new Date(JSON.parse(ListPedidos[index].fechaEmision));
+            var fechaVencimiento =new Date(JSON.parse(ListPedidos[index].fechaVencimiento));
+
             var tableRow = document.getElementById("p"+innerIndex).children;
             tableRow[0].disabled = false;
-            tableRow[1].innerHTML = ListPedidos[index].ID;
-            tableRow[2].innerHTML = ListPedidos[index].Nombre;
-            tableRow[3].innerHTML = ListPedidos[index].FechaEmitida;
-            tableRow[4].innerHTML = ListPedidos[index].FechaVencimiento;
-            tableRow[5].innerHTML = ListPedidos[index].CantidadSolicitada;
-            tableRow[6].innerHTML = ListPedidos[index].Completado;           
+            tableRow[1].innerHTML = ListPedidos[index].id;
+            tableRow[2].innerHTML = ListPedidos[index].idSolicitante;
+            tableRow[3].innerHTML = fechaEmision;
+            tableRow[4].innerHTML = fechaVencimiento;
+            tableRow[5].innerHTML = ListPedidos[index].cantidadSolicitada;
+            if(ListPedidos[index].completado)
+            {
+                tableRow[6].innerHTML = "SI";
+            }
+            else
+            {
+                tableRow[6].innerHTML = "NO";
+            }   
             innerIndex++;
         }
     }
@@ -270,14 +289,33 @@ async function SetPedidoTable(SubIndex)
         var innerIndex = 1;
         for(var index = SubIndex; index < ListPedidos.length; index++)
         {                        
-            var tableRow = document.getElementById("s"+innerIndex).children;
+            var fechaEmision = new Date(ListPedidos[index].fechaEmision);
+            var fechaVencimiento =new Date(ListPedidos[index].fechaVencimiento);
+
+            var tempMes = fechaEmision.getMonth() + 1;
+            fechaEmision = fechaEmision.getDate() + "/" + tempMes + "/" + fechaEmision.getFullYear();
+
+            
+            var tempMes = fechaVencimiento.getMonth() + 1;
+            fechaVencimiento = fechaVencimiento.getDate() + "/" + tempMes + "/" + fechaVencimiento.getFullYear();
+
+
+            var tableRow = document.getElementById("p"+innerIndex).children;
             tableRow[0].disabled = false;
-            tableRow[1].innerHTML = ListPedidos[index].ID;
-            tableRow[2].innerHTML = ListPedidos[index].Nombre;
-            tableRow[3].innerHTML = ListPedidos[index].FechaEmitida;
-            tableRow[4].innerHTML = ListPedidos[index].FechaVencimiento;
-            tableRow[5].innerHTML = ListPedidos[index].CantidadSolicitada;
-            tableRow[6].innerHTML = ListPedidos[index].Completado;           
+            tableRow[1].innerHTML = ListPedidos[index].id;
+            tableRow[2].innerHTML = ListPedidos[index].idSolicitante;
+            tableRow[3].innerHTML = fechaEmision;
+            tableRow[4].innerHTML = fechaVencimiento;
+            tableRow[5].innerHTML = ListPedidos[index].cantidadSolicitada;
+            tableRow[6].innerHTML = ListPedidos[index].grupoSanguineo + ListPedidos[index].factor;
+            if(ListPedidos[index].completado)
+            {
+                tableRow[7].innerHTML = "SI";
+            }
+            else
+            {
+                tableRow[7].innerHTML = "NO";
+            }   
             innerIndex++;
         }
     }
@@ -641,9 +679,9 @@ function SetAsociadoMedicado(checkbox)
         }
     }
 }
-function SetGrupoSanguineo(div)
+function SetGrupoSanguineo(div,view)
 {
-    var grupos = setGrupos();
+    var grupos = setGrupos(view);
     const grupoSanguineoSelected = document.getElementById(div);
 
         for(var index = 0; index < grupos.length; index++)
@@ -654,14 +692,27 @@ function SetGrupoSanguineo(div)
             }
         }
 }
-function setGrupos()
+function setGrupos(view)
 {
+    if(view == "asociado")
+    {
     grupoSanguineoA = document.getElementById('asociadoGrupoSanguineoA');
     grupoSanguineoB = document.getElementById('asociadoGrupoSanguineoB');
     grupoSanguineoO = document.getElementById('asociadoGrupoSanguineoO');
     grupoSanguineoAB = document.getElementById('asociadoGrupoSanguineoAB');
 
     return [grupoSanguineoA, grupoSanguineoB, grupoSanguineoAB, grupoSanguineoO];
+    }
+
+    else
+    {
+    grupoSanguineoA = document.getElementById('pedidoGrupoSanguineoA');
+    grupoSanguineoB = document.getElementById('pedidoGrupoSanguineoB');
+    grupoSanguineoO = document.getElementById('pedidoGrupoSanguineoO');
+    grupoSanguineoAB = document.getElementById('pedidoGrupoSanguineoAB');
+    
+    return [grupoSanguineoA, grupoSanguineoB, grupoSanguineoAB, grupoSanguineoO];
+    }
 }
 function SetAsociadoFactor(checkbox)
 {
@@ -684,6 +735,29 @@ function SetAsociadoFactor(checkbox)
         }
     }
 }
+function SetPedidoFactor(checkbox)
+{
+    var pedidoFactorPositivo = document.getElementById('pedidoFactorPositivo');
+    var pedidoFactorNegativo = document.getElementById('pedidoFactorNegativo');
+
+    if(checkbox == 'pedidoFactorPositivo')
+    {
+        if(pedidoFactorNegativo.checked)
+        {
+            pedidoFactorNegativo.checked = !pedidoFactorNegativo.checked;
+        }
+    }
+
+    else
+    {
+        if(pedidoFactorPositivo.checked)
+        {
+            pedidoFactorPositivo.checked = !pedidoFactorPositivo.checked;
+        }
+    }
+}
+
+
 function AsociadoCanPost()
 {
     const asociado = SetAsociado("Array");
@@ -782,12 +856,38 @@ async function PostDonacion()
 
 async function PostPedido()
 {
-    var StateExecution = document.getElementById('PedidoStateExecution');
+    var StateExecution = document.getElementById('PedidoAddStateExecution');
     const canPost = PedidoCanPost();
 
     if(canPost)
     {
-        
+        var pedido =SetPedido("Object");
+        var response = await fetch(urlPedido,
+            {
+                method : 'POST',
+                headers:
+                {
+                'accept' : 'application/json',
+                'Content-Type' : 'application/json; charset=utf-8',
+                },
+                body : JSON.stringify(pedido)
+            })
+            .then(response => response.json())
+
+            setTimeout(() => {
+                if(response.executionSuccessful)
+                {
+                    StateExecution.innerHTML = "El pedido se ha cargado exitosamente.";
+                    StateExecution.style.color = "green"; StateExecution.style.display = "inherit";
+                    clearInputs("PedidoAddView");
+                }
+            }, 150);
+    }
+   
+    else
+    {
+        StateExecution.innerHTML = "No has ingresado todos los datos, por favor revise lo ingresado.";
+        StateExecution.style.color = "red"; StateExecution.style.display = "inherit";
     }
 }
 async function PostSolicitante()
@@ -860,8 +960,8 @@ function SetAsociado(type)
     var asociadoID = document.getElementById('asociadoID').value;
     var asociadoLocalidad = document.getElementById('asociadoLocalidad').value;
     var asociadoDomicilio = document.getElementById('asociadoDomicilio').value;
-    var asociadoGrupoSanguineo = SearchGrupoSanguineo();
-    var asociadoFactorSangre = SearchFactor();
+    var asociadoGrupoSanguineo = SearchGrupoSanguineo("asociado");
+    var asociadoFactorSangre = SearchFactor("asociado");
     var asociadoTelefono = document.getElementById('asociadoTelefono').value;
     var asociadoFechaNacimiento = document.getElementById('asociadoFechaNacimiento').value;
 
@@ -957,8 +1057,11 @@ function SetDonacion(type)
 function SetPedido(type)
 {
     var selectedSolicitante = document.getElementById('SolicitantePedidoSelect').value;
-    var fechaVencimiento = document.getElementById('PedidoFechaVencimiento').value;
+    var fechaEmision = new Date();
+    var fechaVencimiento = new Date(document.getElementById('PedidoFechaVencimiento').value);
     var cantidad = document.getElementById('PedidoCantidad').value;
+    var grupoSanguineo = SearchGrupoSanguineo("pedido");
+    var factor = SearchFactor("pedido");
 
     if(type == "Array")
     {
@@ -966,16 +1069,20 @@ function SetPedido(type)
             selectedSolicitante
             ,fechaVencimiento
             ,cantidad
+            ,grupoSanguineo
+            ,factor
         ];
     }
 
     else
     {
         return {
-            IDSolicintante : selectedSolicitante
-            ,FechaEmision : Date.now
-            ,FechaVencimiento : FechaVencimiento
+            IDSolicitante : selectedSolicitante
+            ,FechaEmision : fechaEmision.toJSON()
+            ,FechaVencimiento : fechaVencimiento.toJSON()
             ,Cantidad : cantidad
+            ,GrupoSanguineo : grupoSanguineo
+            ,Factor : factor
         };
     }
 }
@@ -1038,26 +1145,42 @@ function SearchEstaMedicado()
         return null;
     }
 }
-function SearchGrupoSanguineo()
+function SearchGrupoSanguineo(div)
 {
-    var asociadoGrupoSanguineoA = document.getElementById('asociadoGrupoSanguineoA' ).checked;
-    var asociadoGrupoSanguineoB = document.getElementById('asociadoGrupoSanguineoB' ).checked;
-    var asociadoGrupoSanguineoAB= document.getElementById('asociadoGrupoSanguineoAB').checked;
-    var asociadoGrupoSanguineoO = document.getElementById('asociadoGrupoSanguineoO' ).checked;
+    var GrupoSanguineoA;
+    var GrupoSanguineoB;
+    var GrupoSanguineoAB;
+    var GrupoSanguineoO;
+    
 
-    if(asociadoGrupoSanguineoA)
+    if(div == "asociado")
+    {
+        GrupoSanguineoA = document.getElementById('asociadoGrupoSanguineoA' ).checked;
+        GrupoSanguineoB = document.getElementById('asociadoGrupoSanguineoB' ).checked;
+        GrupoSanguineoAB= document.getElementById('asociadoGrupoSanguineoAB').checked;
+        GrupoSanguineoO = document.getElementById('asociadoGrupoSanguineoO' ).checked;
+    }
+    else
+    {
+        GrupoSanguineoA = document.getElementById('pedidoGrupoSanguineoA' ).checked;
+        GrupoSanguineoB = document.getElementById('pedidoGrupoSanguineoB' ).checked;
+        GrupoSanguineoAB= document.getElementById('pedidoGrupoSanguineoAB').checked;
+        GrupoSanguineoO = document.getElementById('pedidoGrupoSanguineoO' ).checked;
+    }
+
+    if(GrupoSanguineoA)
     {
         return "A";
     }
-    else if(asociadoGrupoSanguineoB)
+    else if(GrupoSanguineoB)
     {
         return "B";
     }
-    else if(asociadoGrupoSanguineoAB)
+    else if(GrupoSanguineoAB)
     {
         return "AB";
     }
-    else if(asociadoGrupoSanguineoO)
+    else if(GrupoSanguineoO)
     {
         return "0";
     }
@@ -1066,16 +1189,27 @@ function SearchGrupoSanguineo()
         return null;
     }
 }
-function SearchFactor()
-{
-    var asociadoFactorPositivo = document.getElementById('asociadoFactorPositivo').checked;
-    var asociadoFactorNegativo = document.getElementById('asociadoFactorNegativo').checked;
 
-    if(asociadoFactorPositivo)
+function SearchFactor(div)
+{
+    var FactorPositivo;
+    var FactorNegativo;
+
+    if(div == "asociado")
+    {
+        FactorPositivo = document.getElementById('asociadoFactorPositivo').checked;
+        FactorNegativo = document.getElementById('asociadoFactorNegativo').checked;
+    }
+    else
+    {
+        FactorPositivo = document.getElementById('pedidoFactorPositivo').checked;
+        FactorNegativo = document.getElementById('pedidoFactorNegativo').checked;
+    }
+    if(FactorPositivo)
     {
         return "+";
     }
-    else if(asociadoFactorNegativo)
+    else if(FactorNegativo)
     {
         return "-";
     }

@@ -159,13 +159,13 @@
                             
                             <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row; margin-top:-15%;">
                                 <label for="asociadoGrupoSanguineoA" class="AsociadoLabel">A</label>
-                                <input type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="A" id = "asociadoGrupoSanguineoA" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoA', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
                                 <label for="asociadoGrupoSanguineoB" class="AsociadoLabel">B</label>
-                                <input type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="B" id = "asociadoGrupoSanguineoB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoB', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
                                 <label for="asociadoGrupoSanguineoO" class="AsociadoLabel">0</label>
-                                <input type="checkbox" value="0" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
+                                <input type="checkbox" value="0" id = "asociadoGrupoSanguineoO" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoO', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>
                                 <label for="asociadoGrupoSanguineoAB" class="AsociadoLabel">AB</label>
-                                <input type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
+                                <input type="checkbox" value="AB" id = "asociadoGrupoSanguineoAB" onclick="SetGrupoSanguineo('asociadoGrupoSanguineoAB', 'asociado')" onchange="AsociadoCanPost()" style="margin-right: 15%;"/>                        
                             </div>
                             
                             <h4>Ingrese el factor de Sangre</h4>
@@ -566,7 +566,7 @@
                 </div>
 
                 <div id = "buttons">
-                    <button id = "add" onclick="PedidoAddView.style.display = 'inherit'; document.getElementById('PedidoFechaVencimiento').setAttribute('min', Date())">Agregar</button>
+                    <button id = "add" onclick="PedidoAddView.style.display = 'inherit';">Agregar</button>
                     <button id = "edit" style="margin-left: 12%; margin-right: 12%;">Editar</button>
                     <button id = "Remove" style="color: brown;">Borrar</button>  
                 </div>
@@ -586,10 +586,32 @@
                         <h4>Ingrese la fecha de vencimiento:</h4>
                         <input id="PedidoFechaVencimiento" type="date">
 
-                        <h4>Ingrese la cantidad de sangre a pedir:</h4>
-                        <input type="number" min="0" onchange="AsociadoCanPost()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+                        <h4>Ingrese la cantidad de sangre a pedir (ml):</h4>
+                        <input type="number" min="0" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="PedidoCantidad">
+
+                        <h4>Seleccione el grupo sanguineo:</h4>
+                        <div id="asociadoGrupoSanguineo" style="display: flex; flex-direction:row;">
+                            <label for="pedidoGrupoSanguineoA" class="AsociadoLabel">A</label>
+                            <input type="checkbox" value="A" id = "pedidoGrupoSanguineoA" class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoA', 'pedido')" style="margin-right: 15%;"/>
+                            <label for="pedidoGrupoSanguineoB" class="AsociadoLabel">B</label>
+                            <input type="checkbox" value="B" id = "pedidoGrupoSanguineoB"  class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoB', 'pedido')"style="margin-right: 15%;"/>
+                            <label for="pedidoGrupoSanguineoO" class="AsociadoLabel">0</label>
+                            <input type="checkbox" value="0" id = "pedidoGrupoSanguineoO"  class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoO', 'pedido')"style="margin-right: 15%;"/>
+                            <label for="pedidoGrupoSanguineoAB" class="AsociadoLabel">AB</label>
+                            <input type="checkbox" value="AB" id = "pedidoGrupoSanguineoAB"  class="PedidoGrupoSanguineo" onclick="SetGrupoSanguineo('pedidoGrupoSanguineoAB', 'pedido')" style="margin-right: 15%;"/>                        
+                        </div>
+                        <h4>Seleccione el factor:</h4>
+                        
+                        <div style="display: flex; flex-direction:row;">
+                            <label for="pedidoFactorPositivo">+</label>
+                            <input type="checkbox" id = "pedidoFactorPositivo" value="+" style="margin-right: 15%;" onclick="SetPedidoFactor('pedidoFactorPositivo')" />
+                            <label for="pedidoFactorNegativo">-</label>
+                            <input type="checkbox" id = "pedidoFactorNegativo" value="-"  onclick="SetPedidoFactor('pedidoFactorNegativo')" />                        
+                        </div>
+
                     </div>
-                    <button style="height: 20px;" type="submit" id="Submit">Ingresar</button>
+                    <button style="height: 20px;" type="submit" id="Submit" onclick="PostPedido();">Ingresar</button>
+                    <h4 id="PedidoAddStateExecution"></h4>
                 </div>
             </div>
 
