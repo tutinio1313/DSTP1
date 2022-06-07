@@ -56,7 +56,7 @@ public class PedidoController : ControllerBase
         else
         {
             response.ExecutionSuccessful = false;
-            response.ErrorMessage = "El dni del asociado ingresado no se encuentra, por favor revise los datos ingresados.";
+            response.ErrorMessage = "No existen pedidos preexistentes.";
         }
         return response;    
     }

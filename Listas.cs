@@ -126,32 +126,42 @@ namespace dstp1
 
         public static void AddAsociado(Asociado asociado)
         {
-            asociados.Add(asociado);
-            SaveAsociado(asociado);
+            if(asociado != null)
+            {
+                SaveAsociado(asociado);
+            }
         }   
 
         public static void AddCuota(Cuota cuota)
         {
-            cuotas.Add(cuota);
-            SaveCuota(cuota);
+            if(cuota != null)
+            {
+                SaveCuota(cuota);
+            }
         }
 
         public static void AddDonacion(Donacion donacion)
         {
-            donaciones.Add(donacion);
-            SaveDonacion(donacion);
+            if(donacion != null)
+            {
+                SaveDonacion(donacion);
+            }
         }
 
         public static void AddPedido(Pedido pedido)
         {
-            pedidos.Add(pedido);
-            SavePedido(pedido);
+            if(pedido != null)
+            {
+                SavePedido(pedido);
+            }
         }
 
         public static void AddSolicitante(Solicitante solicitante)
         {
-            solicitantes.Add(solicitante);
-            SaveSolicitante(solicitante);
+            if(solicitante != null)
+            {
+                SaveSolicitante(solicitante);
+            }
         }
 
         public static void RemoveAsociado(Asociado asociado)

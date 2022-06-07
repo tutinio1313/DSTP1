@@ -25,11 +25,14 @@ namespace dstp1_request
         public double Cantidad {get; set;}
         
         [Required(ErrorMessage = "El grupo saguineo es necesario, por favor ingreselo.")]   
-        [DataType(DataType.Text)]  
+        [DataType(DataType.Text)]          
+        [RegularExpression("{|^a$|^ab$|^o$|^b$|^A$|^B$|^AB$|^O$|}")]
         public string GrupoSanguineo {get; set;}
 
         [Required(ErrorMessage = "El factor saguineo es necesaria, por favor ingreselo.")]   
         [DataType(DataType.Text)]  
+        [RegularExpression("^[+-]")]
+        [MaxLength(1)]
         public string Factor {get; set;}                  
     }    
 }

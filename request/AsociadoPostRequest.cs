@@ -46,7 +46,7 @@ namespace dstp1_request
 
         [Required(ErrorMessage = "Debes ingresar tu grupo sanguineo.")]
         [DataType(DataType.Text)]
-        [RegularExpression("^[AB0]")]
+        [RegularExpression("{|^a$|^ab$|^o$|^b$|^A$|^B$|^AB$|^O$|}")]
         [MinLength(1)]
         [MaxLength(2)]
         public string GrupoSanguineo {get; set;}
